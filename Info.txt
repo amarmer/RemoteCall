@@ -8,7 +8,7 @@ RemoteCall framework can be used when both client and server are implemented in 
 It is similar to systems which use IDL, but advantage over them that there is no need for IDL compiler and 
 programming model is almost identical to C++ local function call.
 
-Bellow are local and remote declarations, implementations and calls:
+Bellow, for comparison, there are local and remote declarations, implementations and calls:
 
 1. Declaration:   DECLARE_REMOTE
 
