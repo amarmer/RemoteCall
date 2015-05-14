@@ -10,7 +10,6 @@ bool Transport(std::vector<char>& vChar)
     return true;
 }
 
-
 struct RemoteCallTransport: public RemoteCall::Transport
 {
    bool SendReceive(std::vector<char>& vChar) override
@@ -19,7 +18,6 @@ struct RemoteCallTransport: public RemoteCall::Transport
       return Transport(vChar);
    }
 };
-
 
 
 int main(int argc, char* argv[])
