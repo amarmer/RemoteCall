@@ -14,7 +14,7 @@ struct RemoteCallTransport: public RemoteCall::Transport
 {
    bool SendReceive(std::vector<char>& vChar) override
    {
-      // Transport sends and receive vChar, and can use any transport like http, tcp/ip, named pipes, etc.
+      // Transport sends and receives vChar, and can use any transport like http, tcp/ip, named pipes, etc.
       return Transport(vChar);
    }
 };
