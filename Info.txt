@@ -5,6 +5,7 @@ COM and CORBA uses IDL (Interface Definition Language) to define interfaces betw
 to create proxies and stubs for data serialization. Client and server can be implemented in any languages.
 
 RemoteCall framework can be used when both client and server are implemented in C++.
+It allows to define C++ functions and serialize parameters and return automatically.
 It is similar to systems which use IDL, but advantage over them that there is no need for IDL compiler and 
 programming model is almost identical to C++ local function call.
 
