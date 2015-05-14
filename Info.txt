@@ -1,0 +1,117 @@
+RemoteCall - C++ framework for RPC without IDL.
+
+There are several data formats which are used for data transfer via RPC, for instance XML, JSON.
+COM and CORBA uses IDL (Interface Definition Language) to define interfaces between client and server programs and 
+to create proxies and stubs for data serialization. Client and server can be implemented in any languages.
+
+RemoteCall framework can be used when both client and server are implemented in C++.
+It is similar to systems which use IDL, but advantage over them that there is no need for IDL compiler and 
+programming model is almost identical to C++ local function call.
+
+Bellow are local and remote declarations, implementations and calls:
+
+1. Declaration:   DECLARE_REMOTE
+
+Local
+tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
+
+Remote    (For parameters and return can be used any type, except pointer)
+tuple<std::string, int> DECLARE_REMOTE(Test)(std::vector<std::string>& vInOut, char c, const string& s);
+
+
+2. Implementation:   IMPLEMENT_REMOTE
+   -------------- 
+ 
+Local
+tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
+{
+   ...
+   return ret;
+}
+
+Remote     
+tuple<std::string, int> IMPLEMENT_REMOTE(Test)(std::vector<std::string>& vInOut, char c, const string& s)
+{
+   ...
+   return ret;
+}
+
+
+3. Call:   transport.CALL_REMOTE
+
+Local
+vector<string> vInOut = {"In1", "In2"};
+auto ret = Test(vInOut, "A", Test");
+
+Remote      
+vector<string> vInOut = {"In1", "In2"};
+auto ret = transport.CALL_REMOTE(Test)(vInOut, "A", Test");
+
+
+4. Transport
+    
+'transport' above is object of a class which is derived from RemoteCall::Transport and
+implements pure virtual function SendReceive, which can use any RPC methods to send and receive vector<char>, for instance:
+
+class RemoteCallTransport: public RemoteCall::Transport
+{
+public:   
+   bool SendReceive(std::vector<char>& vChar) override   
+   {         
+      RPC(vChar);      
+
+      /*
+      RPC(vChar) can be any appropiate RPC, for instance: http, sockets, names pipes,  etc.,         
+      which sends and receives 'vChar'.
+
+      When 'vChar' is received by server, it should call RemoteCall::Server::CallFromClient(vChar), 
+      which  unserializes vChar and calls  corresponding server function.
+      After call RemoteCall::Server::CallFromClient(vChar), 'vChar' contains serialized Out parameters
+      and Return.  Then 'vChar' should be sent back  to the client as Out parameter of RPC.
+      */
+    }
+};
+
+RemoteCallTransport transport;
+
+
+5. New Data Serialization
+
+For every new data "T", there are 2 serialization functions which needs to be implemented:
+
+RemoteCall::SerializeWriter& operator << (RemoteCall::SerializeWriter& writer, const T& t)
+{   
+   ...   
+   return writer;
+}
+
+RemoteCall::SerializeReader& operator >> (RemoteCall::SerializeReader& reader, T& t)
+{
+   ...
+   return reader;
+}
+
+
+For instance for a structure ABC:
+struct ABC
+{
+   ABC(const std::string& s = "", char c = 0) : s_(s), c_(c) {}
+
+   std::string s_;
+   char c_;
+};
+
+
+RemoteCall::SerializeWriter& operator << (RemoteCall::SerializeWriter& writer, const ABC& abc)
+{
+   writer << abc.s_ << abc.c_;
+
+   return writer;
+}
+
+RemoteCall::SerializeReader& operator >> (RemoteCall::SerializeReader& reader, ABC& abc)
+{
+   reader >> abc.s_ >> abc.c_;
+
+   return reader;
+}
