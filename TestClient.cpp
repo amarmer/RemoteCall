@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool IPCorRPC(std::vector<char>& vChar)
+bool Transport(std::vector<char>& vChar)
 {
     // This is called in the server 
     RemoteCall::Server::CallFromClient(vChar);
@@ -15,8 +15,8 @@ struct RemoteCallTransport: public RemoteCall::Transport
 {
    bool SendReceive(std::vector<char>& vChar) override
    {
-      // IPC/RPC call which sends and receive vChar
-      return IPCorRPC(vChar);
+      // Transport sends and receive vChar, and can use any transport like http, tcp/ip, named pipes, etc.
+      return Transport(vChar);
    }
 };
 
