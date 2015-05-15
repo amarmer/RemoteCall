@@ -22,8 +22,7 @@ tuple<std::string, int> DECLARE_REMOTE(Test)(std::vector<std::string>& vInOut, c
 
 
 2. Implementation:   IMPLEMENT_REMOTE
-   -------------- 
- 
+
 Local
 tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
 {
