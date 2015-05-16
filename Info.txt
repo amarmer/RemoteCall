@@ -46,23 +46,24 @@ auto ret = transport.CALL_REMOTE(Test)(vInOut, "A", Test");
 4. Transport
     
 'transport' above is object of a class which is derived from RemoteCall::Transport and
-implements pure virtual function SendReceive, which can use any RPC methods to send and receive vector<char>, for instance:
+implements pure virtual function SendReceive, which can use any remote data transfer methods 
+to send and receive vector<char>, for instance:
 
 class RemoteCallTransport: public RemoteCall::Transport
 {
 public:   
    bool SendReceive(std::vector<char>& vChar) override   
    {         
-      Transport(vChar);      
+      RemoteDataTransport(vChar);      
 
       /*
-      Transport(vChar) can be any appropiate transport, for instance: http, sockets, names pipes,  etc.,         
+      RemoteDataTransport(vChar) can be any appropiate data transport, for instance: http, sockets, names pipes,  etc.,         
       which sends and receives 'vChar'.
 
       When 'vChar' is received by server, it should call RemoteCall::Server::CallFromClient(vChar), 
       which  unserializes vChar and calls  corresponding server function.
       After call RemoteCall::Server::CallFromClient(vChar), 'vChar' contains serialized Out parameters
-      and Return.  Then 'vChar' should be sent back  to the client as Out parameter of Transport(vChar).
+      and Return.  Then 'vChar' should be sent back  to the client as Out parameter of RemoteDataTransport(vChar).
       */
     }
 };
