@@ -111,3 +111,7 @@ RemoteCall::SerializeReader& operator >> (RemoteCall::SerializeReader& reader, A
 
    return reader;
 }
+
+Example of a function declation which uses ABC:
+
+bool DECLARE_REMOTE(Test)(std::vector<ABC>& vABC);
