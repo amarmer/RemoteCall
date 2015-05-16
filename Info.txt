@@ -1,14 +1,8 @@
-RemoteCall - C++ framework for RPC without IDL.
+RemoteCall is C++ framework for RPC.
 
-There are several approaches for transferring data in RPC using: XML, JSON, Protocol Buffers, etc.
-Also COM and CORBA uses IDL (Interface Definition Language) to define interfaces between client
-and server programs and to create proxies and stubs for data serialization.
-Client and server can be implemented in any languages.
-
-RemoteCall framework can be used when both client and server are implemented in C++.
-It allows to define C++ functions and serialize return and parameters automatically.
-It is similar to systems which use IDL, but advantage over them that there is no need for IDL compiler.
-When using RemoteCall, programming model is identical to C++ local function call.
+Therea are many ways to uses Remote procedure call, as described in http://en.wikipedia.org/wiki/Remote_procedure_call
+Advantage of RemoteCall C++ framework is it allows to use RPC identically to how C++ calls are 
+used locally in the same process.   
 
 For comparison, local and remote declarations, implementations and calls:
 
