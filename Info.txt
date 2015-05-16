@@ -71,9 +71,9 @@ public:
 RemoteCallTransport transport;
 
 
-5. New Data Serialization
+5. Data Serialization
 
-For every new data "T", there are 2 serialization functions which needs to be implemented:
+For every data "T", there are 2 serialization functions which needs to be implemented:
 
 RemoteCall::SerializeWriter& operator << (RemoteCall::SerializeWriter& writer, const T& t)
 {   
