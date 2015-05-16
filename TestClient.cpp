@@ -4,7 +4,7 @@ using namespace std;
 
 bool Transport(std::vector<char>& vChar)
 {
-    // This is called in the server 
+    // This is should be in the server 
     RemoteCall::Server::CallFromClient(vChar);
 
     return true;
