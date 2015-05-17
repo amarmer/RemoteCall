@@ -87,7 +87,7 @@ RemoteCall::SerializeReader& operator >> (RemoteCall::SerializeReader& reader, T
    return reader;
 }
 
-Basic C++ types, const char*, std::string, std::vector, std::tuple are implemented in RemoteCallSerializer.h.
+Serialization of basic C++ types, const char*, std::string, std::vector, std::tuple are implemented in RemoteCallSerializer.h.
 
 
 For instance for a structure ABC, serialization implementation is bellow:
