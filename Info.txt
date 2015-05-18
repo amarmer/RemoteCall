@@ -12,7 +12,7 @@ RemoteCall automatically:
 3. on the server, unserializes byte array to calling parameters
 4. invokes corresponding function with calling parameters on the server
 5. serializes 'Return' and 'Out' parameters to byte array
-6. using remote transport, it receives serialized byte array back on the client from the server
+6. using remote transport, receives serialized byte array back on the client from the server
 7. on the client, unserializes byte array to 'Return' and to 'Out' calling parameters
 
 RemoteCall can use any synchronous remote transport which sends and receives array of bytes, for instance: 
