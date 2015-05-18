@@ -81,7 +81,7 @@ public:
       When 'vChar' is received by server, it should call RemoteCall::Server::CallFromClient(vChar), 
       which  unserializes vChar and calls  corresponding server function.
       After call RemoteCall::Server::CallFromClient(vChar), 'vChar' contains serialized 'Return' and 'Out' parameters.
-      Then 'vChar' should be sent back  to the client as 'Out' parameter of RemoteDataTransport(vChar).
+      Then 'vChar' should be sent back to the client as 'Out' parameter of RemoteDataTransport(vChar).
       */
     }
 };
