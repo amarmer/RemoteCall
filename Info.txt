@@ -1,21 +1,22 @@
 RemoteCall is C++ framework for RPC.
 
 There are many ways to use RPC, as it is described in http://en.wikipedia.org/wiki/Remote_procedure_call
+
 Advantage of RemoteCall C++ framework is it allows to use RPC identically to how C++ calls are 
 used locally in the same process.   
 
 For comparison, local and remote declarations, implementations and calls:
 
-1. Declaration:   DECLARE_REMOTE
+1. Declaration
 
 Local
 tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
 
-Remote    (For parameters and return can be used any type, except pointer)
+Remote   (for parameters and return can be used any type, except pointer)
 tuple<std::string, int> DECLARE_REMOTE(Test)(std::vector<std::string>& vInOut, char c, const string& s);
 
 
-2. Implementation:   IMPLEMENT_REMOTE
+2. Implementation
 
 Local
 tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
@@ -24,7 +25,7 @@ tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const str
    return ret;
 }
 
-Remote     
+Remote  (server implementation)     
 tuple<std::string, int> IMPLEMENT_REMOTE(Test)(std::vector<std::string>& vInOut, char c, const string& s)
 {
    ...
@@ -32,7 +33,7 @@ tuple<std::string, int> IMPLEMENT_REMOTE(Test)(std::vector<std::string>& vInOut,
 }
 
 
-3. Call:   transport.CALL_REMOTE
+3. Call
 
 Local
 vector<string> vInOut = {"In1", "In2"};
