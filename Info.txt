@@ -3,9 +3,6 @@ RemoteCall is C++ framework for RPC.
 There are many ways to use RPC, as it is described in http://en.wikipedia.org/wiki/Remote_procedure_call, 
 for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), DCOM, CORBA, etc.
 
-RemoteCall framework doesn't implement remote transport, it can use any synchronous remote transport 
-which sends and receives array of bytes, for instance: http(s), tcp/ip, named pipes, etc.
-
 RemoteCall automatically:
 1. serializes parameters to byte array on the client
 2. using any remote transport, sends serialized byte array to the server
@@ -14,6 +11,9 @@ RemoteCall automatically:
 5. serializes 'Return' and 'Out' parameters to byte array
 6. using remote transport receives serialized byte array back on the client from the server
 7. on the client, unserializes byte array to 'Return' and to 'Out' calling parameters
+
+RemoteCall can use any synchronous remote transport which sends and receives array of bytes, for instance: 
+http(s), tcp/ip, named pipes, etc.
 
 Advantage of RemoteCall framework is it declares, implements and calls remote C++ functions identially 
 to how C++ calls are used locally in the same process.
