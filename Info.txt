@@ -28,7 +28,7 @@ For comparison, bellow are local and remote declarations, implementations and ca
 Local
 tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
 
-Remote  (for return and parameters can be used any type, except pointer)
+Remote  (for return and parameters can be used any types, except pointers)
 tuple<std::string, int> DECLARE_REMOTE(Test)(std::vector<std::string>& vInOut, char c, const string& s);
 
 
