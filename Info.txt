@@ -12,7 +12,7 @@ RemoteCall automatically:
 3. on the server, unserializes byte array to calling parameters
 4. invokes corresponding function with calling parameters on the server
 5. serializes return and 'Out' parameters to byte array
-6. using remote transport receives serialized byte array from the server back to the client
+6. using remote transport receives serialized byte array back on the client from the server
 7. on the client, unserializes byte array to return and to 'Out' calling parameters
 
 Advantage of RemoteCall C++ framework is it declares, implements and calls remote functions identially 
