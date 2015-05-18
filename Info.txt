@@ -12,7 +12,7 @@ For comparison, local and remote declarations, implementations and calls:
 Local
 tuple<std::string, int> Test(std::vector<std::string>& vInOut, char c, const string& s);
 
-Remote   (for parameters and return can be used any type, except pointer)
+Remote  (for parameters and return can be used any type, except pointer)
 tuple<std::string, int> DECLARE_REMOTE(Test)(std::vector<std::string>& vInOut, char c, const string& s);
 
 
