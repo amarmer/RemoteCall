@@ -3,7 +3,7 @@ RemoteCall is C++ framework for RPC.
 There are many ways to use RPC, as it is described in http://en.wikipedia.org/wiki/Remote_procedure_call, 
 for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), DCOM, CORBA, etc.
 
-Advantage of RemoteCall framework is it declares, implements and calls remote C++ functions identially 
+Advantage of RemoteCall framework is it declares, implements and calls remote C++ functions identically 
 to how C++ calls are used locally in the same process.
 
 RemoteCall automatically:
