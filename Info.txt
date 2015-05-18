@@ -63,7 +63,7 @@ auto ret = transport.CALL_REMOTE(Test)(vInOut, "A", Test");
 4. Transport
     
 'transport' above is object of a class which is derived from RemoteCall::Transport and
-implements pure virtual function SendReceive, which can use any remote data transfer methods 
+implements pure virtual function SendReceive, which can use any remote data transport  
 to send and receive vector<char>, for instance:
 
 class RemoteCallTransport: public RemoteCall::Transport
