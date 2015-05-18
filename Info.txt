@@ -18,6 +18,7 @@ RemoteCall automatically:
 RemoteCall can use any synchronous remote transport which sends and receives array of bytes, for instance: 
 http(s), tcp/ip, named pipes, etc.
 
+
 For declarations, implementations, calls are used corresponding macros:
 DECLARE_REMOTE, IMPLEMENT_REMOTE, CALL_REMOTE.
 
