@@ -215,7 +215,7 @@ namespace RemoteCall
     }
 
 
-    // tuple << and >>
+    // tuple
     template<int n>
     struct Tuple
     {
