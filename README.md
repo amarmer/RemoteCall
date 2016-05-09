@@ -1,12 +1,12 @@
 #### RemoteCall C++ framework for RPC
 
-RemoteCall is C++ strongly typed IPC framework which allows to work with IPC the same as with local function call.
+There are many ways to use RPC, as it is described in http://en.wikipedia.org/wiki/Remote_procedure_call, 
+for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), DCOM, CORBA, etc.
 
-Usage of local function has 3 components: function declaration, function implementation, function call.
-Advantages of RemoteCall over all other IPC approaches, it allows to use the same model for IPC as local call has, 
-by adding simple macros for each of the component.
+Advantage of RemoteCall framework it is strognly typed and declares, implements and calls remote C++ functions identically 
+to how C++ calls are used locally in the same process. RemoteCall supports function calls, class method calls.
 
-RemoteCall supports function calls, class constructors and class method calls.
+A local function in C++ has declaration, implementation and call. RemoteCall uses macros to for declaration, implementation and call.
 
 Bellow is an explanation how to use it.
 
