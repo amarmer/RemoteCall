@@ -46,6 +46,7 @@
     bool m##registerMethod = RemoteCall::Server::RegisterMethod((Interface*)this, #m, &Interface::m##Method); \
     m##DeclMethodReturnType m##Method
 
+
 // CallLocation used in Exception (passing 2 variables in local calls is not much overhead in remote call)
 #define REMOTE_CALL_LOCATION RemoteCall::CallLocation{__FILE__, __LINE__}
 
