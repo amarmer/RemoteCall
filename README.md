@@ -8,6 +8,8 @@ to how they are used locally in the same process. RemoteCall supports functions,
 
 Bellow is an explanation how to use it.
 
+#####Framework
+RemoteCall.h contains framework macros. This header should be include in declarion header file.
 
 #####Transport
 
