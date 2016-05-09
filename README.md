@@ -20,7 +20,7 @@ Transport implementation is not part of the framework.
 // Client should create a class which is derived from 'RemoteCall::Transport' 
 struct RemoteCallTransport: public RemoteCall::Transport
 {
-    // This pure virtual method should be implemented. 
+    // This pure virtual method should be implemented. It send to and receives from server array of bytes.  
     bool SendReceive(std::vector<char>& vChar) override
     {
         // In this call client sends 'vChar' to server
