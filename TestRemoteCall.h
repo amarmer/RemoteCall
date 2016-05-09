@@ -8,7 +8,6 @@ struct ABC
    int n_;
 };
 
-
 inline RemoteCall::Serializer& operator << (RemoteCall::Serializer& writer, const ABC& abc)
 {
    return writer << abc.s_ << abc.n_;
