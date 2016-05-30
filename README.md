@@ -37,10 +37,11 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
 
    /*
    'Send' is used for asynchronous call to send data. It is invoked by REMOTE_CALL.
-    Asynchronous call is implied if: 1. return type of function/method declaration is 'void' and 
+    Asynchronous call is implied if: 
+    1. return type of function/method declaration is 'void' and 
     2. declarations of all parameters are not non-const reference.
-    Note: if SendReceive is implemented, it will be called instead of Send, since it provides more exception information from server, 
-    and in this case Send doesn't need to be implemented.
+    Note: if SendReceive is implemented, it will be called instead of Send, 
+    since it provides more exception information from server, and in this case Send doesn't need to be implemented.
 
     vIn - sent to server 
     return - true if server call was sucessfull, or false otherwise
