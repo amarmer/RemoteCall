@@ -138,9 +138,24 @@ auto ret = transport.REMOTE_CALL(pTest->TestMethod)(sInOut);
 transport.REMOTE_DELETE(pTest);
 ```
 
+######Callback
+
+Callback is implemented as class described above:
+
+```C++
+REMOTE_CLASS(CTest): public ITest
+{   
+};
+```
+
+A client calls server and pass pointer to instance of a callback class, for instance:
+```C++
+transport.REMOTE_CALL(pTest->TestCallback)("Test", new CTest);
+```
+
 ######Restrictions 
-1. Pointers cannot be used for parameters and return
-2. If a parameter is passed as non-const reference, it is IN/OUT parameter
+1. Pointers cannot be used for parameters (except if it is a pointer to remote class (for callback call)) and return type
+2. If a parameter is passed as non-const reference, it is In/Out parameter
 
 ######Exceptions
 All calls can throw RemoteCall::Exception
