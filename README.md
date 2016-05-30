@@ -140,17 +140,30 @@ transport.REMOTE_DELETE(pTest);
 
 ######Callback
 
-Callback is implemented as class described above:
+Callback is just a class described above:
 
 ```C++
-REMOTE_CLASS(CTest): public ITest
+REMOTE_INTERFACE(ITestCallback)
+{
+    virtual void REMOTE_METHOD_DECL(CallFromServer)(const string& s) = 0;
+};
+
+REMOTE_CLASS(TestCallback): public ITestCallback
 {   
+    void REMOTE_METHOD_DECL(CallFromServer)(const string& s) override
+    {
+    }
 };
 ```
 
 A client calls server and pass pointer to instance of a callback class, for instance:
 ```C++
-transport.REMOTE_CALL(pTest->TestCallback)("Test", new CTest);
+transport.REMOTE_CALL(pTest->TestCallback)("Test", new TestCallback);
+```
+
+Server call callback like:
+```C++
+serverTransport.REMOTE_CALL(pTestCallback->CallFromServer)("Reply");
 ```
 
 ######Restrictions 
