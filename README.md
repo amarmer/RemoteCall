@@ -23,8 +23,8 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
 {
     /*
     'SendReceive' is used for synchronous call to send and receive data. It is invoked by REMOTE_CALL.
-    Synchronous call is implied if: 1. return type of declared function/method is not 'void' or 2. parameter declaration is    
-    non-const reference.
+    Synchronous call is implied if: 
+    1. return type of declared function/method is not 'void' or 2. parameter declaration is non-const reference.
     
     vIn - sent to server 
     vOut - received from server 
