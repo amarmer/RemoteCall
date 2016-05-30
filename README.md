@@ -25,20 +25,13 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
     Synchronous call is implied if: 1. return type of declared function/method is not 'void' or 2. parameter declaration is    
     non-const reference.
     
-    Implementation of 'SendReceive' is not part of the framework, it is implemented via a particular transport, for instance:    
-    http(s), sockets, etc.
-    
     vIn - sent to server 
     vOut - received from server 
     return - true if server call was sucessfull, or false otherwise
     */
     bool SendReceive(const std::vector<char>& vIn, std::vector<char>& vOut)
     {
-        // For testing, emulates request to server (implemented in TestServer.cpp)
-        extern void ServerRequestHandler(const std::vector<char>& vIn, std::vector<char>& vOut);
-        ServerRequestHandler(vIn, vOut);
-
-        return true;
+        // Implementation is not part of the framework, use a particular transport, for instance: http(s), sockets, etc.
     }
 
    /*
@@ -47,18 +40,12 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
     Note: if SendReceive is implemented, it will be called instead of Send, since it provides more exception information from server, 
     and in this case Send doesn't need to be implemented.
 
-    Implementation of 'Send' is not part of the framework, it is implemented via a particular transport, for instance: named pipes, messages, etc.
-
     vIn - sent to server 
     return - true if server call was sucessfull, or false otherwise
     */
     bool Send(const std::vector<char>& vIn)
     {
-        // For testing, emulates request to server (implemented in TestServer.cpp)
-        extern void ServerRequestHandler(const std::vector<char>& vIn, std::vector<char>& vOut);
-        ServerRequestHandler(vIn, std::vector<char>());
-
-        return true;
+        // Implementation is not part of the framework, use a particular transport, for instance: named pipes, messages, etc.
     }
 };
 ```
