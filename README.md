@@ -4,7 +4,7 @@ There are many ways to use IPC/RPC, as it is described in http://en.wikipedia.or
 for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), COM/DCOM, CORBA, etc.
 
 Advantage of RemoteCall framework, it is strognly typed and declares, implements and calls remote C++ functions identically 
-to how they are used locally in the same process. RemoteCall supports functions, interfaces, classes, methods.
+to how they are used locally in the same process. RemoteCall supports synchrnous and asynchronous calls, and supports functions, interfaces, classes, methods.
 
 Bellow is an explanation how to use it.
 
@@ -17,20 +17,41 @@ RemoteCall can use any transport for IPC, for instance socket, pipes, etc.
 Transport implementation is not part of the framework.
 
 ```C++
-// Client should create a class which is derived from 'RemoteCall::Transport' 
-struct RemoteCallTransport: public RemoteCall::Transport
+// Client's transport class should be derived from 'RemoteCall::Transport'. It is used for synchronous and asynchronous calls.
+struct ClientTransport: public RemoteCall::Transport<ClientTransport>
 {
-    // This pure virtual method should be implemented. It sends to and receives from server array of bytes.  
-    bool SendReceive(std::vector<char>& vChar) override
+	// 'SendReceive' is used for synchronous call to send and receive data. It is invoked by REMOTE_CALL.
+	// Synchronous call is implied if: 1. return type of declared function/method is not 'void' or 2. parameter declaration is non-const reference.
+	//
+	// Implementation of 'SendReceive' is not part of the framework, it is implemented via a particular transport, for instance: http(s), sockets, etc.
+	//
+    // vIn - sent to server 
+    // vOut - received from server 
+    // return - true if server call was sucessfull, or false otherwise
+    bool SendReceive(const std::vector<char>& vIn, std::vector<char>& vOut)
     {
-        // In this call client sends 'vChar' to server
+        // For testing, emulates request to server (implemented in TestServer.cpp)
+        extern void ServerRequestHandler(const std::vector<char>& vIn, std::vector<char>& vOut);
+        ServerRequestHandler(vIn, vOut);
 
-        // Server, when it recevies 'vChar', calls 'RemoteCall::Server::CallFromClient(vChar);'
-        RemoteCall::Server::CallFromClient(vChar);
+        return true;
+    }
 
-        // Server replies 'vChar', modified in 'RemoteCall::Server::CallFromClient(vChar)', back to the client
+	// 'Send' is used for asynchronous call to send data. It is invoked by REMOTE_CALL.
+	// Asynchronous call is implied if: 1. return type of function/method declaration is 'void' and 2. declarations of all parameters are not non-const reference.
+	// Note: if SendReceive is implemented, it will be called instead of Send, since it provides more exception information from server, 
+	// and in this case Send doesn't need to be implemented.
+	//
+	// Implementation of 'Send' is not part of the framework, it is implemented via a particular transport, for instance: named pipes, messages, etc.
+	//
+    // vIn - sent to server 
+    // return - true if server call was sucessfull, or false otherwise
+    bool Send(const std::vector<char>& vIn)
+    {
+        // For testing, emulates request to server (implemented in TestServer.cpp)
+        extern void ServerRequestHandler(const std::vector<char>& vIn, std::vector<char>& vOut);
+        ServerRequestHandler(vIn, std::vector<char>());
 
-        // Client returns true if 'vChar' was sucessfully received from the server, or false otherwise
         return true;
     }
 };
