@@ -1,4 +1,4 @@
-#### RemoteCall C++ framework for IPC between C++ client and C++ server
+#### RemoteCall - C++ IPC framework for synchronous and asynchronous communication
 
 There are many ways to use IPC/RPC, as it is described in http://en.wikipedia.org/wiki/Remote_procedure_call, 
 for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), COM/DCOM, CORBA, etc.
