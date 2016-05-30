@@ -167,7 +167,7 @@ serverTransport.REMOTE_CALL(pTestCallback->CallFromServer)("Reply");
 ```
 
 ######Restrictions 
-1. In functions and methods, pointers cannot be used for parameters (except if it is a pointer to remote class) and return type
+1. In functions and methods, pointers cannot be used for parameters (except pointers to remote class) and return type
 2. If a parameter is passed as non-const reference, it is In/Out parameter
 
 ######Exceptions
