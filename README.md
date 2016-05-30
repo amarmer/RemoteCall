@@ -114,11 +114,11 @@ REMOTE_CLASS(CTest): public ITest
 REMOTE_CLASS(CTest): public ITest 
 {
     int REMOTE_METHOD_DECL(TestMethod)(string& s) override
-	{
-		s += "Server";
+    {
+	s += "Server";
 
-		return s.size();
-	}
+	return s.size();
+    }
 };
 ```
 ######Class creation: transport.REMOTE_NEW(className)
@@ -167,7 +167,7 @@ serverTransport.REMOTE_CALL(pTestCallback->CallFromServer)("Reply");
 ```
 
 ######Restrictions 
-1. In functions and methods, pointers cannot be used for parameters (except pointers to remote class) and return type
+1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to remote class)
 2. If a parameter is passed as non-const reference, it is In/Out parameter
 
 ######Exceptions
