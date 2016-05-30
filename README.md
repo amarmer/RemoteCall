@@ -113,7 +113,7 @@ REMOTE_CLASS(CTest): public ITest
 ```C++
 REMOTE_CLASS(CTest): public ITest 
 {
-    int REMOTE_METHOD_DECL(TestMethod)(string& s) override
+    int REMOTE_METHOD_IMPL(TestMethod)(string& s) override
     {
 	s += "Server";
 
@@ -150,7 +150,7 @@ REMOTE_INTERFACE(ITestCallback)
 
 REMOTE_CLASS(TestCallback): public ITestCallback
 {   
-    void REMOTE_METHOD_DECL(CallFromServer)(const string& s) override
+    void REMOTE_METHOD_IMPL(CallFromServer)(const string& s) override
     {
     }
 };
@@ -161,7 +161,7 @@ A client calls server and pass pointer to instance of a callback class, for inst
 transport.REMOTE_CALL(pTest->TestCallback)("Test", new TestCallback);
 ```
 
-Server call callback like:
+Server calls callback method like:
 ```C++
 serverTransport.REMOTE_CALL(pTestCallback->CallFromServer)("Reply");
 ```
