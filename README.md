@@ -4,7 +4,8 @@ There are many ways to use IPC/RPC, as it is described in http://en.wikipedia.or
 for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), COM/DCOM, CORBA, etc.
 
 Advantage of RemoteCall framework, it is strognly typed and declares, implements and calls remote C++ functions identically 
-to how they are used locally in the same process. RemoteCall supports synchrnous and asynchronous calls, and supports functions, interfaces, classes, methods.
+to how they are used locally in the same process. RemoteCall supports synchrnous and asynchronous 
+calls, and supports functions, interfaces, classes, methods.
 
 Bellow is an explanation how to use it.
 
@@ -36,7 +37,8 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
 
    /*
    'Send' is used for asynchronous call to send data. It is invoked by REMOTE_CALL.
-    Asynchronous call is implied if: 1. return type of function/method declaration is 'void' and 2. declarations of all parameters are not non-const reference.
+    Asynchronous call is implied if: 1. return type of function/method declaration is 'void' and 
+    2. declarations of all parameters are not non-const reference.
     Note: if SendReceive is implemented, it will be called instead of Send, since it provides more exception information from server, 
     and in this case Send doesn't need to be implemented.
 
