@@ -33,7 +33,8 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
     */
     bool SendReceive(const std::vector<char>& vIn, std::vector<char>& vOut)
     {
-        // Implementation is not part of the framework, use a particular transport, for instance: http(s), sockets, etc.
+        // Implementation is not part of the framework, it uses a particular transport, 
+        // for instance: http(s), sockets, etc.
     }
 
    /*
