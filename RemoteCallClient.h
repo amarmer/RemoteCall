@@ -84,12 +84,12 @@ namespace RemoteCall
     }
 
 
-	template <typename T>
-	static void constexpr CheckRemoteInterfacePointer()
-	{
-		static_assert(!is_pointer<T>::value  ||  is_base_of<RemoteInterface, remove_pointer<T>::type>::value, 
-			"Pointer can only be used if it's type is declared via REMOTE_INTERFACE");
-	}
+    template <typename T>
+    static void constexpr CheckRemoteInterfacePointer()
+    {
+        static_assert(!is_pointer<T>::value  ||  is_base_of<RemoteInterface, remove_pointer<T>::type>::value, 
+	    "Pointer can only be used if it's type is declared via REMOTE_INTERFACE");
+    }
 
 
     // ClientCallProcessor
