@@ -23,11 +23,11 @@ It is described and implemented in TestClient.cpp. Bellow instance of Transport 
 
 #####RemoteCall macros descriptions
 
-######Function declaration: REMOTE_FUNCTION_DECL(funcName)
+######Function declaration: REMOTE_FUNCTION_DECL(FunctionName)
 ```C++
 tuple<std::string, int> REMOTE_FUNCTION_DECL(Test)(std::vector<std::string>& vInOut, int n, const string& s);
 ```
-######Function implementation: REMOTE_FUNCTION_IMPL(funcName)
+######Function implementation: REMOTE_FUNCTION_IMPL(FunctionName)
 
 ```C++
 tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, int n, const string& s)
@@ -55,7 +55,7 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-######Method declaration: REMOTE_METHOD_DECL(className)
+######Method declaration: REMOTE_METHOD_DECL(MethodName)
 
 ```C++
 REMOTE_INTERFACE(ITest)
@@ -64,7 +64,7 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-######Method Implementation: REMOTE_METHOD_IMPL(methodName)
+######Method Implementation: REMOTE_METHOD_IMPL(MethodName)
 
 ```C++
 struct CTest: public ITest 
