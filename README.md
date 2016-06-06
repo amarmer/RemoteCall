@@ -17,7 +17,7 @@ Bellow is an explanation how to use it.
 RemoteCall can use any transport for IPC, for instance socket, pipes, etc. 
 Transport implementation is not part of the framework.
 Client's transport class should be derived from 'RemoteCall::Transport'. It is used for synchronous and asynchronous calls.
-For synchrnous communication should be implemented SendReceive, for asynchrnous should be implemented Send or SendReceive.
+For synchronous communication should be implemented SendReceive, for asynchronous should be implemented Send or SendReceive.
 It is described and implemented in TestClient.cpp. Bellow instance of Transport class is refered as 'transport'.
 
 
