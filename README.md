@@ -86,7 +86,7 @@ auto ret = pTest->TestMethod(transport)(sInOut);
 ######Class instance destruction: Delete(trt)(interfacePointer)
 
 ```C++
-Delete(trt)(pTest);
+Delete(transport)(pTest);
 ```
 
 ######Callback
