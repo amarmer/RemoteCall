@@ -94,6 +94,7 @@ int main(int argc, char* argv[])
         pTest->GetData(trt)(s, n);
         // s == "Test ABC"; n == 15
 
+        // Delete pTest on server
         Delete(trt)(pTest);
     }
     catch (const RemoteCall::Exception& e) 
