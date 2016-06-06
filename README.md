@@ -223,12 +223,12 @@ int main(int argc, char* argv[])
     {
         ITest* pTest = CreateTest(trt)("Test", 99);
 
-        pTest->UpdateData(trt)(" update", 1);
+        pTest->UpdateData(trt)("Update", 1);
 
         std::string s;
         int n = 0;
         pTest->GetData(trt)(s, n);
-        // s = "Test update"; n = 100;
+        // s = "TestUpdate"; n = 100;
         
         // Delete CTest object on server
         Delete(trt)(pTest);
