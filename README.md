@@ -99,8 +99,9 @@ REMOTE_INTERFACE(ITestCallback)
     virtual void REMOTE_METHOD_DECL(CallFromServer)(const string& s) = 0;
 };
 
-REMOTE_CLASS(TestCallback): public ITestCallback
+class TestCallback: public ITestCallback
 {   
+public:
     void REMOTE_METHOD_IMPL(CallFromServer)(const string& s) override
     {
     }
