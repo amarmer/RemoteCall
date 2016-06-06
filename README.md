@@ -47,7 +47,7 @@ tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, 
 vector<string> vInOut = {"In1", "In2"};
 auto ret = Test(transport)(vInOut, 12345, "Test");
 ```
-######Interface declaration: REMOTE_INTERFACE(interfaceName)
+######Interface declaration: REMOTE_INTERFACE(InterfaceName)
 
 ```C++
 REMOTE_INTERFACE(ITest) 
