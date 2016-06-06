@@ -8,15 +8,15 @@
     using f##DeclRemoteFunctionReturnType = decltype(f##DeclRemoteFunctionReturn()); \
     template <typename Transport> \
     struct f##RemoteFunctionStruct \
-	{ \
-		const Transport& trt_; \
-		f##RemoteFunctionStruct(const Transport& trt) : trt_(trt) {} \
-		template <typename ...Args> \
-		f##DeclRemoteFunctionReturnType operator () (Args&&...args) \
-			{ return trt_.Call(RemoteCall::GetFunctionInfo<f##DeclRemoteFunctionReturnType, Args...>(#f, decltype(&f##RemoteFunction)(), args...)); } \
-	}; \
-	template <typename Transport> \
-	f##RemoteFunctionStruct<Transport> f(const Transport& trt) { return f##RemoteFunctionStruct<Transport>(trt); } \
+    { \
+        const Transport& trt_; \
+	f##RemoteFunctionStruct(const Transport& trt) : trt_(trt) {} \
+	template <typename ...Args> \
+	f##DeclRemoteFunctionReturnType operator () (Args&&...args) \
+	    { return trt_.Call(RemoteCall::GetFunctionInfo<f##DeclRemoteFunctionReturnType, Args...>(#f, decltype(&f##RemoteFunction)(), args...)); } \
+    }; \
+    template <typename Transport> \
+    f##RemoteFunctionStruct<Transport> f(const Transport& trt) { return f##RemoteFunctionStruct<Transport>(trt); } \
     decltype(f##DeclRemoteFunctionReturn()) f##RemoteFunction
 
 
