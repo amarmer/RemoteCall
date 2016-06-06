@@ -190,13 +190,13 @@ public:
        :s_(s), n_(n)
     {}
     
-    void REMOTE_METHOD_DECL(UpdateData)(const std::string& s, int n) override
+    void REMOTE_METHOD_IMPL(UpdateData)(const std::string& s, int n) override
     {
        s_ += s;
        n_ += n;
     }
     
-    void REMOTE_METHOD_DECL(GetData)(std::string& s, int& n) override
+    void REMOTE_METHOD_IMPL(GetData)(std::string& s, int& n) override
     {
        s = s_;
        n = n_;
