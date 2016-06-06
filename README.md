@@ -5,7 +5,7 @@ for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), COM/DCOM, CORBA, e
 
 Advantage of RemoteCall framework, it is strognly typed and declares, implements and calls remote C++ functions identically 
 to how they are used locally in the same process. RemoteCall supports synchronous and asynchronous 
-calls, and supports functions, interfaces, classes, methods, callbacks.
+calls, and supports functions, interfaces, methods, callbacks.
 
 Bellow is an explanation how to use it.
 
