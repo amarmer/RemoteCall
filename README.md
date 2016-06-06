@@ -167,11 +167,12 @@ Declarations in TestRemoteCall.h:
 ```C++
 #include "RemoteCall.h"
 
-int REMOTE_FUNCTION_DECL(Func)(std::string& s, char c);
+ITest* REMOTE_FUNCTION_DECL(CreateTest)(const std::string& s, int n);
 
 REMOTE_INTERFACE(ITest)
 {
-    virtual void REMOTE_METHOD_DECL(Method)(int& count) = 0;
+    virtual void REMOTE_METHOD_DECL(UpdateData)(const std::string& s, int n) = 0;
+    virtual void REMOTE_METHOD_DECL(GetData)(std::string& s, int& n) = 0;
 };
 ```
 
@@ -180,22 +181,32 @@ Implementations on server:
 ```C++
 #include "TestRemoteCall.h"
 
-int REMOTE_FUNCTION_IMPL(Func)(string& s, char c)
+class CTest: public ITest
 {
-   s += c;
-
-   return s.size();
-}
-
-REMOTE_CLASS(CTest): public ITest
-{
-    void REMOTE_METHOD_IMPL(Method)(int& count) override
+   std::string s_;
+   int n_;
+public:
+    CTest(const std::string& s, int n)
+       :s_(s), n_(n)
+    {}
+    
+    void REMOTE_METHOD_DECL(UpdateData)(const std::string& s, int n) override
     {
-		count = ++count_;
+       s_ += s;
+       n_ += n;
     }
-
-	int count_ = 0;
+    
+    void REMOTE_METHOD_DECL(GetData)(std::string& s, int& n) override
+    {
+       s = s_;
+       n = n_;
+    }
 };
+
+ITest* REMOTE_FUNCTION_IMPL(CreateTest)(string& s, int n)
+{
+   return CTest(s, n);
+}
 ```
 
 Calls:
@@ -205,23 +216,23 @@ Calls:
 
 int main(int argc, char* argv[])
 {
-    // RemoteCallTransport described above
-    RemoteCallTransport rct;
+    // Transport described above
+    Transport trt;
 	
     try 
     {
-        string sInOut("ABC");
-        int ret = rct.REMOTE_CALL(Func)(sInOut, '!');
-		// sInOut == "ABC!", ret == 4
+	ITest* pTest = CreateTest(trt)("Test", 99);
 
-		ITest* pTest = rct.REMOTE_NEW("CTest");
+	pTest->UpdateData(trt)(" update", 1);
 
-		int count = 0;
-		rct.REMOTE_CALL(pTest->Method)(count);
-		// count == 1
-		
-		rct.REMOTE_DELETE(pTest); 
-	}
+        std::string s;
+        int n = 0;
+	pTest->GetData(trt)(s, n);
+        // s = "Test update"; n = 100;
+        
+        // Delete CTest object on server
+        Delete(trt)(pTest);
+    }
     catch (const RemoteCall::Exception& e) 
     {
         cout << e.what() << endl;
