@@ -27,7 +27,7 @@ namespace RemoteCall
         {
             p_ = (void*)&t;
 
-			write_ = [](Serializer& writer, const void* p) {  writer << *(T*)p; };
+	    write_ = [](Serializer& writer, const void* p) {  writer << *(T*)p; };
             read_ = read;
         }
 
@@ -105,7 +105,7 @@ namespace RemoteCall
 
             using DeclArgNoReference = remove_reference<DeclArg>::type;
 
-			CheckRemoteInterfacePointer<DeclArgNoReference>();
+	    CheckRemoteInterfacePointer<DeclArgNoReference>();
 
             const bool isDeclOut = is_lvalue_reference<DeclArg>::value  &&  !is_const<DeclArgNoReference>::value;
 
@@ -132,16 +132,16 @@ namespace RemoteCall
     template <bool useSendReceive, typename Ret>
     struct CallInfo
     {
-		CallInfo(const std::string callName, const std::vector<Param>& vPar)
-			: callName_(callName), vPar_(vPar)
-		{}
+        CallInfo(const std::string callName, const std::vector<Param>& vPar)
+	    : callName_(callName), vPar_(vPar)
+	{}
 
-		virtual void Serialize(Serializer& writer) = 0;
+	virtual void Serialize(Serializer& writer) = 0;
 
-		CallInfo& operator , (void*)
-		{
-			return *this;
-		}
+	CallInfo& operator , (void*)
+	{
+	    return *this;
+	}
 
         std::string callName_;
         std::vector<Param> vPar_;
