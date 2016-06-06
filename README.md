@@ -186,24 +186,24 @@ class CTest: public ITest
    std::string s_;
    int n_;
 public:
-    CTest(const std::string& s, int n)
+    CTest(const string& s, int n)
        :s_(s), n_(n)
     {}
     
-    void REMOTE_METHOD_IMPL(UpdateData)(const std::string& s, int n) override
+    void REMOTE_METHOD_IMPL(UpdateData)(const string& s, int n) override
     {
        s_ += s;
        n_ += n;
     }
     
-    void REMOTE_METHOD_IMPL(GetData)(std::string& s, int& n) override
+    void REMOTE_METHOD_IMPL(GetData)(string& s, int& n) override
     {
        s = s_;
        n = n_;
     }
 };
 
-ITest* REMOTE_FUNCTION_IMPL(CreateTest)(string& s, int n)
+ITest* REMOTE_FUNCTION_IMPL(CreateTest)(const string& s, int n)
 {
    return CTest(s, n);
 }
