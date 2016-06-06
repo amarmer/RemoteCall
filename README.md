@@ -71,9 +71,9 @@ struct CTest: public ITest
 {
     int REMOTE_METHOD_IMPL(TestMethod)(string& s) override
     {
-	s += "Server";
-
-	return s.size();
+        s += "Server";
+        
+        return s.size();
     }
 };
 ```
