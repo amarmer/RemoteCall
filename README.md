@@ -167,12 +167,17 @@ Declarations in TestRemoteCall.h:
 ```C++
 #include "RemoteCall.h"
 
-ITest* REMOTE_FUNCTION_DECL(CreateTest)(const std::string& s, int n);
+REMOTE_INTERFACE(ITestCallback)
+{
+    virtual void REMOTE_METHOD_DECL(CallFromServer)(int n) = 0;
+};
+
+ITest* REMOTE_FUNCTION_DECL(CreateTest)(const std::string& s, int n, ITestCallback* pCallback);
 
 REMOTE_INTERFACE(ITest)
 {
-    virtual void REMOTE_METHOD_DECL(UpdateData)(const std::string& s, int n) = 0;
-    virtual void REMOTE_METHOD_DECL(GetData)(std::string& s, int& n) = 0;
+    virtual void REMOTE_METHOD_DECL(UpdateData)(int n) = 0;
+    virtual void REMOTE_METHOD_DECL(GetData)(int& n) = 0;
 };
 ```
 
@@ -185,27 +190,38 @@ class CTest: public ITest
 {
    std::string s_;
    int n_;
+   ITestCallback* pCallback_;
 public:
-    CTest(const string& s, int n)
-       :s_(s), n_(n)
+    CTest(const string& s, int n, ITestCallback* pCallback)
+       :s_(s), n_(n), pCallback_(pCallback)
     {}
     
-    void REMOTE_METHOD_IMPL(UpdateData)(const string& s, int n) override
+    ~CTest()
     {
-       s_ += s;
-       n_ += n;
+       delete pCallback_;
     }
     
-    void REMOTE_METHOD_IMPL(GetData)(string& s, int& n) override
+    void REMOTE_METHOD_IMPL(UpdateData)(int n) override
     {
-       s = s_;
+       n_ += n;
+       
+       if (0 == (n_ % 10))
+       {
+          pCallback->CallFromServer(serverTransport)(n_);
+       }
+    }
+    
+    void REMOTE_METHOD_IMPL(GetData)(int& n) override
+    {
        n = n_;
     }
 };
 
-ITest* REMOTE_FUNCTION_IMPL(CreateTest)(const string& s, int n)
+ITest* REMOTE_FUNCTION_IMPL(CreateTest)(const string& s, int n, ITestCallback* pCallback)
 {
-   return CTest(s, n);
+   // pointer passed from server 'pCallback' should be deleted when it is not used, to avoid memory leak
+   
+   return CTest(s, n, pCallback);
 }
 ```
 
@@ -214,6 +230,13 @@ Calls:
 ```C++
 #include "TestRemoteCall.h"
 
+structs TestCallback: public ITestCallback
+{
+    void REMOTE_METHOD_DECL(CallFromServer)(int n) override
+    {
+    }
+};
+
 int main(int argc, char* argv[])
 {
     // Transport described above
@@ -221,14 +244,15 @@ int main(int argc, char* argv[])
 	
     try 
     {
-        ITest* pTest = CreateTest(trt)("Test", 99);
+        ITest* pTest = CreateTest(trt)("Test", 7);
 
-        pTest->UpdateData(trt)("Update", 1);
+        // Update data and trigger callback
+        pTest->UpdateData(trt)(3);
 
         std::string s;
-        int n = 0;
-        pTest->GetData(trt)(s, n);
-        // s = "TestUpdate"; n = 100;
+        int n;
+        pTest->GetData(trt)(n);
+        // n = 8;
         
         // Delete CTest object on server
         Delete(trt)(pTest);
