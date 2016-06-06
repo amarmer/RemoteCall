@@ -37,17 +37,17 @@
     using m##MethodReturnType = decltype(RemoteCall::MethodReturnType(&m##MethodReturn)); \
     template <typename Transport> \
     struct m##MethodStruct \
-	{ \
-		const Transport& trt_; \
-		std::string instanceId_; \
-		m##MethodStruct(const Transport& trt, const std::string& instanceId) : trt_(trt), instanceId_(instanceId) {} \
-		template <typename ...Args> \
-		m##MethodReturnType operator() (Args&&...args) \
-			{ return trt_.Call(RemoteCall::GetMethodInfo<m##MethodReturnType, Interface, Args...>(instanceId_, #m, decltype(&Interface::m##Method)(), args...)); } \
-	}; \
-	template <typename Transport> \
-	m##MethodStruct<Transport> m(const Transport& trt) { return m##MethodStruct<Transport>(trt, instanceId_); } \
-	virtual m##MethodReturnType m##Method
+    { \
+        const Transport& trt_; \
+	std::string instanceId_; \
+	m##MethodStruct(const Transport& trt, const std::string& instanceId) : trt_(trt), instanceId_(instanceId) {} \
+	template <typename ...Args> \
+	m##MethodReturnType operator() (Args&&...args) \
+	    { return trt_.Call(RemoteCall::GetMethodInfo<m##MethodReturnType, Interface, Args...>(instanceId_, #m, decltype(&Interface::m##Method)(), args...)); } \
+    }; \
+    template <typename Transport> \
+    m##MethodStruct<Transport> m(const Transport& trt) { return m##MethodStruct<Transport>(trt, instanceId_); } \
+    virtual m##MethodReturnType m##Method
 
 // Implement remote method
 #define REMOTE_METHOD_IMPL(m) \
