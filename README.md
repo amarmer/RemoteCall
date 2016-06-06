@@ -5,7 +5,7 @@ for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), COM/DCOM, CORBA, e
 
 Advantage of RemoteCall framework, it is strognly typed and declares, implements and calls remote C++ functions identically 
 to how they are used locally in the same process. RemoteCall supports synchronous and asynchronous 
-calls, and supports functions, interfaces, methods, callbacks.
+calls, and supports functions, interfaces, methods.
 
 Bellow is an explanation how to use it.
 
@@ -16,46 +16,9 @@ Bellow is an explanation how to use it.
 
 RemoteCall can use any transport for IPC, for instance socket, pipes, etc. 
 Transport implementation is not part of the framework.
-
-```C++
-// Client's transport class should be derived from 'RemoteCall::Transport'. 
-// It is used for synchronous and asynchronous calls.
-struct ClientTransport: public RemoteCall::Transport<ClientTransport>
-{
-    /*
-    'SendReceive' is used for synchronous call to send and receive data. It is invoked by REMOTE_CALL.
-    Synchronous call is implied if: 
-    1. return type of declared function/method is not 'void' or 2. parameter declaration is non-const reference.
-    
-    vIn - sent to server 
-    vOut - received from server 
-    return - true if server call was sucessfull, or false otherwise
-    */
-    bool SendReceive(const std::vector<char>& vIn, std::vector<char>& vOut)
-    {
-        // Implementation is not part of the framework, it uses a transport, like: http(s), sockets, etc.
-    }
-
-   /*
-   'Send' is used for asynchronous call to send data. It is invoked by REMOTE_CALL.
-    Asynchronous call is implied if: 
-    1. return type of function/method declaration is 'void' and 
-    2. declarations of all parameters are not non-const reference.
-    Note: if SendReceive is implemented, it will be called instead of Send, since it provides more exception 
-    information from server, and in this case Send doesn't need to be implemented.
-
-    vIn - sent to server 
-    return - true if server call was sucessfull, or false otherwise
-    */
-    bool Send(const std::vector<char>& vIn)
-    {
-        // Implementation is not part of the framework, it uses a transport, like: named pipes, messages, etc.
-    }
-};
-```
-
-Instance of this class, for instance named 'transport', is used with all macros which call server.
-
+Client's transport class should be derived from 'RemoteCall::Transport'. It is used for synchronous and asynchronous calls.
+For synchrnous communication should be implemented SendReceive, for asynchrnous should be implemented Send or SendReceive.
+It is described and implemented in TestClient.cpp. Bellow instance of Transport class is refered as 'transport'.
 
 
 #####RemoteCall macros descriptions
@@ -78,11 +41,11 @@ tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, 
    return tpl;
 }
 ```
-######Function call: transport.REMOTE_CALL(funcName)
+######Function call: FunctionName(transport)(parameters). 
 
 ```C++
 vector<string> vInOut = {"In1", "In2"};
-auto ret = transport.REMOTE_CALL(vInOut, 12345, "Test");
+auto ret = Test(transport)(vInOut, 12345, "Test");
 ```
 ######Interface declaration: REMOTE_INTERFACE(interfaceName)
 
@@ -101,17 +64,10 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-######Class declration: REMOTE_CLASS(className): public interfaceName
-
-```C++
-REMOTE_CLASS(CTest): public ITest 
-{
-};
-```
 ######Method Implementation: REMOTE_METHOD_IMPL(methodName)
 
 ```C++
-REMOTE_CLASS(CTest): public ITest 
+struct CTest: public ITest 
 {
     int REMOTE_METHOD_IMPL(TestMethod)(string& s) override
     {
@@ -121,21 +77,16 @@ REMOTE_CLASS(CTest): public ITest
     }
 };
 ```
-######Class creation: transport.REMOTE_NEW(className)
-
-```C++
-ITest* pTest = transport.REMOTE_NEW("CTest");
-```
-######Method call: transport.REMOTE_CALL(pRemoteInterface->methodName)
+######Method call: InterfacePointer->MethodName(trt)(parameters) 
         
 ```C++
 strins sInOut = "Test";
-auto ret = transport.REMOTE_CALL(pTest->TestMethod)(sInOut);
+auto ret = pTest->TestMethod(transport)(sInOut);
 ```
-######Class instance destruction: transport.REMOTE_DELETE(pRemoteInterface)
+######Class instance destruction: Delete(trt)(interfacePointer)
 
 ```C++
-transport.REMOTE_DELETE(pTest);
+Delete(trt)(pTest);
 ```
 
 ######Callback
@@ -158,16 +109,16 @@ REMOTE_CLASS(TestCallback): public ITestCallback
 
 A client calls server and pass pointer to instance of a callback class, for instance:
 ```C++
-transport.REMOTE_CALL(pTest->TestCallback)("Test", new TestCallback);
+pTest->TestCallback(transport)("Test", new TestCallback);
 ```
 
 Server calls callback method like:
 ```C++
-serverTransport.REMOTE_CALL(pTestCallback->CallFromServer)("Reply");
+pTestCallback->CallFromServer(serverTransport)("Reply");
 ```
 
 ######Restrictions 
-1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to remote class)
+1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to RemoterInterface)
 2. If a parameter is passed as non-const reference, it is In/Out parameter
 
 ######Exceptions
