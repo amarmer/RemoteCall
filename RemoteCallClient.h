@@ -138,11 +138,6 @@ namespace RemoteCall
 
 	virtual void Serialize(Serializer& writer) = 0;
 
-	CallInfo& operator , (void*)
-	{
-	    return *this;
-	}
-
         std::string callName_;
         std::vector<Param> vPar_;
     };
@@ -162,9 +157,9 @@ namespace RemoteCall
 
     template <typename Ret, typename ...CallArgs, typename ...DeclArgs>
     static FunctionInfo<UseSendReceive<Ret, DeclArgs...>(), Ret> 
-		GetFunctionInfo(const std::string& callName, Ret(*)(DeclArgs...), CallArgs&...callArgs)
+        GetFunctionInfo(const std::string& callName, Ret(*)(DeclArgs...), CallArgs&...callArgs)
     {
-		CheckRemoteInterfacePointer<Ret>();
+	CheckRemoteInterfacePointer<Ret>();
 
         std::vector<Param> vPar;
         ClientCallProcessor<DeclArgs...>::CollectParam<CallArgs...>(vPar, callArgs...);
@@ -194,12 +189,12 @@ namespace RemoteCall
     static MethodInfo<UseSendReceive<Ret, DeclArgs...>(), Ret> 
         GetMethodInfo(const std::string& instanceId, const std::string& callName, Ret(C::*)(DeclArgs...), CallArgs&...callArgs)
     {
-		CheckRemoteInterfacePointer<Ret>();
+	CheckRemoteInterfacePointer<Ret>();
 
         std::vector<Param> vPar;
         ClientCallProcessor<DeclArgs...>::CollectParam<CallArgs...>(vPar, callArgs...);
 
-		return MethodInfo<UseSendReceive<Ret, DeclArgs...>(), Ret>(instanceId, callName, vPar);
+	return MethodInfo<UseSendReceive<Ret, DeclArgs...>(), Ret>(instanceId, callName, vPar);
     }
 
 
