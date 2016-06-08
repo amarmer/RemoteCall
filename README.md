@@ -23,7 +23,7 @@ It is described and implemented in TestClient.cpp. Bellow instance of Transport 
 
 #####RemoteCall macros descriptions
 
-######Function declaration: REMOTE_FUNCTION_DECL(FunctionName)
+######Function declaration: #####REMOTE_FUNCTION_DECL(FunctionName)
 ```C++
 tuple<std::string, int> REMOTE_FUNCTION_DECL(Test)(std::vector<std::string>& vInOut, int n, const string& s);
 ```
