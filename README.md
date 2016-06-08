@@ -237,7 +237,7 @@ int main(int argc, char* argv[])
 	
     try 
     {
-        structs TestCallback: public ITestCallback
+        struct TestCallback: public ITestCallback
         {
              void REMOTE_METHOD_DECL(CallFromServer)(int n) override
              {
