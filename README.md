@@ -251,10 +251,9 @@ int main(int argc, char* argv[])
         // Update data and trigger callback
         pTest->UpdateData(trt)(3);
 
-        std::string s;
         int n;
         pTest->GetData(trt)(n);
-        // n = 8;
+        // n = 10;
         
         // Delete CTest object on server
         Delete(trt)(pTest);
