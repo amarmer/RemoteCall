@@ -230,12 +230,6 @@ Calls:
 ```C++
 #include "TestRemoteCall.h"
 
-structs TestCallback: public ITestCallback
-{
-    void REMOTE_METHOD_DECL(CallFromServer)(int n) override
-    {
-    }
-};
 
 int main(int argc, char* argv[])
 {
@@ -244,7 +238,15 @@ int main(int argc, char* argv[])
 	
     try 
     {
-        ITest* pTest = CreateTest(trt)("Test", 7);
+        structs TestCallback: public ITestCallback
+        {
+             void REMOTE_METHOD_DECL(CallFromServer)(int n) override
+             {
+                 delete this;
+             }
+        };
+ 
+        ITest* pTest = CreateTest(trt)("Test", 7, new TestCallback);
 
         // Update data and trigger callback
         pTest->UpdateData(trt)(3);
