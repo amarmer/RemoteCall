@@ -118,7 +118,7 @@ pTestCallback->CallFromServer(serverTransport)("Reply");
 ```
 
 #####Restrictions 
-1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to RemoterInterface)
+1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to REMOTE_INTERFACE)
 2. If a parameter is passed as non-const reference, it is In/Out parameter
 
 #####Exceptions
