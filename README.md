@@ -21,14 +21,12 @@ For synchronous communication should be implemented SendReceive, for asynchronou
 It is described and implemented in TestClient.cpp. Bellow instance of Transport class is refered as 'transport'.
 
 
-#####RemoteCall macros descriptions
-
 
 #####Function declaration: REMOTE_FUNCTION_DECL(FunctionName)
 ```C++
 tuple<std::string, int> REMOTE_FUNCTION_DECL(Test)(std::vector<std::string>& vInOut, int n, const string& s);
 ```
-######Function implementation: REMOTE_FUNCTION_IMPL(FunctionName)
+#####Function implementation: REMOTE_FUNCTION_IMPL(FunctionName)
 
 ```C++
 tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, int n, const string& s)
@@ -42,13 +40,13 @@ tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, 
    return tpl;
 }
 ```
-######Function call: FunctionName(transport)(parameters). 
+#####Function call: FunctionName(transport)(parameters). 
 
 ```C++
 vector<string> vInOut = {"In1", "In2"};
 auto ret = Test(transport)(vInOut, 12345, "Test");
 ```
-######Interface declaration: REMOTE_INTERFACE(InterfaceName)
+#####Interface declaration: REMOTE_INTERFACE(InterfaceName)
 
 ```C++
 REMOTE_INTERFACE(ITest) 
@@ -56,7 +54,7 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-######Method declaration: REMOTE_METHOD_DECL(MethodName)
+#####Method declaration: REMOTE_METHOD_DECL(MethodName)
 
 ```C++
 REMOTE_INTERFACE(ITest)
@@ -65,7 +63,7 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-######Method Implementation: REMOTE_METHOD_IMPL(MethodName)
+#####Method Implementation: REMOTE_METHOD_IMPL(MethodName)
 
 ```C++
 struct CTest: public ITest 
@@ -78,19 +76,19 @@ struct CTest: public ITest
     }
 };
 ```
-######Method call: InterfacePointer->MethodName(trt)(parameters) 
+#####Method call: InterfacePointer->MethodName(trt)(parameters) 
         
 ```C++
 strins sInOut = "Test";
 auto ret = pTest->TestMethod(transport)(sInOut);
 ```
-######Class instance destruction: Delete(trt)(interfacePointer)
+#####Class instance destruction: Delete(trt)(interfacePointer)
 
 ```C++
 Delete(transport)(pTest);
 ```
 
-######Callback
+#####Callback
 
 Callback is just a class described above:
 
@@ -119,14 +117,14 @@ Server calls callback method like:
 pTestCallback->CallFromServer(serverTransport)("Reply");
 ```
 
-######Restrictions 
+#####Restrictions 
 1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to RemoterInterface)
 2. If a parameter is passed as non-const reference, it is In/Out parameter
 
-######Exceptions
+#####Exceptions
 All calls can throw RemoteCall::Exception
 
-######Non built-in types
+#####Non built-in types
 For non built-in types, for instance type T, 2 serialization functions needs to be implemented:
 
 ```C++
@@ -161,7 +159,7 @@ inline RemoteCall::Serializer& operator >> (RemoteCall::Serializer& reader, ABC&
    return reader >> abc.s_ >> abc.n_;
 }
 ```
-######Example
+#####Example
 
 Declarations in TestRemoteCall.h:
 
