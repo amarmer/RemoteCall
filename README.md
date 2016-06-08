@@ -76,13 +76,13 @@ struct CTest: public ITest
     }
 };
 ```
-#####Method call: InterfacePointer->MethodName(trt)(parameters) 
+#####Method call: InterfacePointer->MethodName(transport)(parameters) 
         
 ```C++
 strins sInOut = "Test";
 auto ret = pTest->TestMethod(transport)(sInOut);
 ```
-#####Class instance destruction: Delete(trt)(interfacePointer)
+#####Class instance destruction: Delete(transport)(interfacePointer)
 
 ```C++
 Delete(transport)(pTest);
