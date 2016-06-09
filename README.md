@@ -93,7 +93,6 @@ int main(int argc, char* argv[])
         {
              void REMOTE_METHOD_DECL(CallFromServer)(int n) override
              {
-                 delete this;
              }
         };
  
