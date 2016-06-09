@@ -1,16 +1,118 @@
 #### RemoteCall - C++ framework for synchronous and asynchronous IPC
 
-There are many ways to use IPC/RPC, as it is described in http://en.wikipedia.org/wiki/Remote_procedure_call, 
-for instance XML-RPC, JSON-RPC, Protocol Buffers (protobufs), COM/DCOM, CORBA, etc.
-
-Advantage of RemoteCall framework, it is strognly typed and declares, implements and calls remote C++ functions identically 
-to how they are used locally in the same process. RemoteCall supports synchronous and asynchronous 
+RemoteCall allows to declare, implement and call remote C++ functions similarly 
+to how it is done locally in the same process. RemoteCall supports synchronous and asynchronous 
 calls, and supports functions, interfaces, methods.
-
-Bellow is an explanation how to use it.
 
 #####Framework
 *RemoteCall.h* contains framework macros. This header should be included in declarion header file.
+
+
+#####Example
+
+Declarations in TestRemoteCall.h:
+
+```C++
+#include "RemoteCall.h"
+
+REMOTE_INTERFACE(ITestCallback)
+{
+    virtual void REMOTE_METHOD_DECL(CallFromServer)(int n) = 0;
+};
+
+ITest* REMOTE_FUNCTION_DECL(CreateTest)(const std::string& s, int n, ITestCallback* pCallback);
+
+REMOTE_INTERFACE(ITest)
+{
+    virtual void REMOTE_METHOD_DECL(UpdateData)(int n) = 0;
+    virtual void REMOTE_METHOD_DECL(GetData)(int& n) = 0;
+};
+```
+
+Implementations on server:
+
+```C++
+#include "TestRemoteCall.h"
+
+class CTest: public ITest
+{
+   std::string s_;
+   int n_;
+   ITestCallback* pCallback_;
+public:
+    CTest(const string& s, int n, ITestCallback* pCallback)
+       :s_(s), n_(n), pCallback_(pCallback)
+    {}
+    
+    ~CTest()
+    {
+       delete pCallback_;
+    }
+    
+    void REMOTE_METHOD_IMPL(UpdateData)(int n) override
+    {
+       n_ += n;
+       
+       if (0 == (n_ % 10))
+       {
+          pCallback->CallFromServer(serverTransport)(n_);
+       }
+    }
+    
+    void REMOTE_METHOD_IMPL(GetData)(int& n) override
+    {
+       n = n_;
+    }
+};
+
+ITest* REMOTE_FUNCTION_IMPL(CreateTest)(const string& s, int n, ITestCallback* pCallback)
+{
+   // pointer passed from server 'pCallback' should be deleted when it is not used, to avoid memory leak
+   
+   return CTest(s, n, pCallback);
+}
+```
+
+Calls:
+
+```C++
+#include "TestRemoteCall.h"
+
+int main(int argc, char* argv[])
+{
+    // Transport described above
+    Transport trt;
+	
+    try 
+    {
+        struct TestCallback: public ITestCallback
+        {
+             void REMOTE_METHOD_DECL(CallFromServer)(int n) override
+             {
+                 delete this;
+             }
+        };
+ 
+        ITest* pTest = CreateTest(trt)("Test", 7, new TestCallback);
+
+        // Update data and trigger callback
+        pTest->UpdateData(trt)(3);
+
+        int n;
+        pTest->GetData(trt)(n);
+        // n = 10;
+        
+        // Delete CTest object on server
+        Delete(trt)(pTest);
+    }
+    catch (const RemoteCall::Exception& e) 
+    {
+        cout << e.what() << endl;
+    }
+}
+```
+
+
 
 #####Transport
 
@@ -157,110 +259,6 @@ inline RemoteCall::Serializer& operator << (RemoteCall::Serializer& writer, cons
 inline RemoteCall::Serializer& operator >> (RemoteCall::Serializer& reader, ABC& abc)
 {
    return reader >> abc.s_ >> abc.n_;
-}
-```
-#####Example
-
-Declarations in TestRemoteCall.h:
-
-```C++
-#include "RemoteCall.h"
-
-REMOTE_INTERFACE(ITestCallback)
-{
-    virtual void REMOTE_METHOD_DECL(CallFromServer)(int n) = 0;
-};
-
-ITest* REMOTE_FUNCTION_DECL(CreateTest)(const std::string& s, int n, ITestCallback* pCallback);
-
-REMOTE_INTERFACE(ITest)
-{
-    virtual void REMOTE_METHOD_DECL(UpdateData)(int n) = 0;
-    virtual void REMOTE_METHOD_DECL(GetData)(int& n) = 0;
-};
-```
-
-Implementations on server:
-
-```C++
-#include "TestRemoteCall.h"
-
-class CTest: public ITest
-{
-   std::string s_;
-   int n_;
-   ITestCallback* pCallback_;
-public:
-    CTest(const string& s, int n, ITestCallback* pCallback)
-       :s_(s), n_(n), pCallback_(pCallback)
-    {}
-    
-    ~CTest()
-    {
-       delete pCallback_;
-    }
-    
-    void REMOTE_METHOD_IMPL(UpdateData)(int n) override
-    {
-       n_ += n;
-       
-       if (0 == (n_ % 10))
-       {
-          pCallback->CallFromServer(serverTransport)(n_);
-       }
-    }
-    
-    void REMOTE_METHOD_IMPL(GetData)(int& n) override
-    {
-       n = n_;
-    }
-};
-
-ITest* REMOTE_FUNCTION_IMPL(CreateTest)(const string& s, int n, ITestCallback* pCallback)
-{
-   // pointer passed from server 'pCallback' should be deleted when it is not used, to avoid memory leak
-   
-   return CTest(s, n, pCallback);
-}
-```
-
-Calls:
-
-```C++
-#include "TestRemoteCall.h"
-
-
-int main(int argc, char* argv[])
-{
-    // Transport described above
-    Transport trt;
-	
-    try 
-    {
-        struct TestCallback: public ITestCallback
-        {
-             void REMOTE_METHOD_DECL(CallFromServer)(int n) override
-             {
-                 delete this;
-             }
-        };
- 
-        ITest* pTest = CreateTest(trt)("Test", 7, new TestCallback);
-
-        // Update data and trigger callback
-        pTest->UpdateData(trt)(3);
-
-        int n;
-        pTest->GetData(trt)(n);
-        // n = 10;
-        
-        // Delete CTest object on server
-        Delete(trt)(pTest);
-    }
-    catch (const RemoteCall::Exception& e) 
-    {
-        cout << e.what() << endl;
-    }
 }
 ```
 
