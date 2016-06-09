@@ -7,6 +7,11 @@ calls, and supports functions, interfaces, methods.
 #####Framework
 *RemoteCall.h* contains framework. This header should be included in declarion header file.
 
+For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNCTION_IMPL, REMOTE_INTERFACE, REMOTE_METHOD_DECL, REMOTE_METHOD_IMPL.
+
+Function call used as Function(transport)(Parameters),  method call used as InterfacePointer->Method(transport)(Parameters).
+
+
 #####Example
 
 Declarations in TestRemoteCall.h:
