@@ -57,7 +57,7 @@ public:
     {
        n_ += n;
        
-       if (0 == (n_ % 10))
+       if (100 == n_)
        {
           pCallback->CallFromServer(serverTransport)(n_);
        }
@@ -93,6 +93,7 @@ int main(int argc, char* argv[])
         {
              void REMOTE_METHOD_DECL(CallFromServer)(int n) override
              {
+                delete this;
              }
         };
  
