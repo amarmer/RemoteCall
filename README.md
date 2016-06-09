@@ -5,8 +5,7 @@ to how it is done locally in the same process. RemoteCall supports synchronous a
 calls, and supports functions, interfaces, methods.
 
 #####Framework
-*RemoteCall.h* contains framework macros. This header should be included in declarion header file.
-
+*RemoteCall.h* contains framework. This header should be included in declarion header file.
 
 #####Example
 
