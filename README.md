@@ -15,20 +15,76 @@ Function call used as Function(transport)(Parameters),  method call used as Inte
 
 #####Declaration:
 ```C++
-Local:  int Test(const std::string& s);
-Remote: int REMOTE_FUNCTION_DECL(Test)(const std::string& s);
+Local:  int GetLength(const std::string& s);
+Remote: int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
 ```
 
 #####Implementation:
 ```C++
-Local:  int Test(const std::string& s) { return s.size(); }
-Remote: int REMOTE_FUNCTION_IMPL(Test)(const std::string& s)  { return s.size(); }
+Local:  int GetLength(const std::string& s) { return s.size(); }
+Remote: int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
 ```
 
 #####Call:
 ```C++
-Local:  int size = Test("abc");
-Remote: int size = transport(Test("abc"));
+Local:  int size = GetLength("abc");
+Remote: int size = transport(GetLength("abc"));
+```
+
+#####Interface and methods example:
+
+#####Declaration:
+```C++
+// Local  
+struct ITest
+{
+   virtual int GetLength(const std::string& s);
+};
+
+// Remote  
+REMOTE_INTERFACE(ITest)
+{
+   virtual int REMOTE_METHOD_DECL(GetLength)(const std::string& s);
+};
+
+ITest* REMOTE_FUNCTION_DECL(TestClassFactory)();
+```
+
+#####Implementation:
+```C++
+//Local
+struct Test: public ITest
+{
+   int GetLength(const std::string& s) override
+   {
+      return s.size();
+   }
+};
+
+// Remote
+struct Test: public ITest
+{
+   int REMOTE_METHOD_IMPL(GetLength)(const std::string& s) override
+   {
+      return s.size();
+   }
+};
+
+ITest* REMOTE_FUNCTION_IMPL(TestClassFactory)()
+{
+   return new Test;
+}
+```
+
+#####Call:
+```C++
+   // Local
+   pTest = new Test;
+   int size = pTest->GetLength("abc");
+   
+   // Remote
+   ITest* pTest = transport(TestClassFactory());
+   int size = transport(pTest->GetLength("abc"));
 ```
 
 #####Example
