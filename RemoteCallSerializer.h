@@ -40,7 +40,7 @@ namespace RemoteCall
                 data[i] = v_[readPos_ + i];
             }
 
-			memcpy((void*)&t, data, sizeof(T));
+	    memcpy((void*)&t, data, sizeof(T));
 
             readPos_ += sizeof(T);
         }
