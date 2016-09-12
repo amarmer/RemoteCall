@@ -23,7 +23,7 @@ namespace RemoteCall
         }
 
     protected:
-		typedef void(*TRead)(Serializer&, void*);
+	typedef void(*TRead)(Serializer&, void*);
 
         template <typename T>
         void Init(T& t, TRead read)
@@ -193,7 +193,7 @@ namespace RemoteCall
         CheckRemoteInterfacePointer<Ret>();
 
         std::vector<Param> vPar;
-		ClientCallProcessor<DeclArgs...>::template CollectParam<CallArgs...>(vPar, callArgs...);
+	ClientCallProcessor<DeclArgs...>::template CollectParam<CallArgs...>(vPar, callArgs...);
 
         return MethodInfo<UseSendReceive<Ret, DeclArgs...>(), Ret>(instanceId, callName, vPar);
     }
