@@ -113,7 +113,7 @@ namespace RemoteCall
     template <typename T>
     Serializer& operator >> (Serializer& reader, T*& pT)
     {
-		// Better diagnostic than check is_base
+	// Better compiler error than check is_base
 	RemoteInterface* pInterface = pT; pInterface = nullptr;
 
         std::string instanceId;
