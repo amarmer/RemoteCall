@@ -15,7 +15,7 @@ namespace RemoteCall
     struct RemoteInterface
     {
         RemoteInterface()
-			:counter_(1)
+	   :counter_(1)
         {
             AddInterface(this);
         }
@@ -26,41 +26,43 @@ namespace RemoteCall
         }
 
 
-		void DeleteWhenNoClient()
-		{
-			deleteWhenNoClient_ = true;
-		}
+	void DeleteWhenNoClient()
+	{
+	   deleteWhenNoClient_ = true;
+	}
 
         std::string instanceId_ = CreateInstanceId();
 
-		bool deleteWhenNoClient_ = false;
+	bool deleteWhenNoClient_ = false;
 
-		void IncCounter()
-		{
-			counter_++;
-		}
+	void IncCounter()
+	{
+	   counter_++;
+	}
 
-		void DecCounter()
-		{
-			counter_--;
-			if (!counter_)
-			{
-				if (deleteWhenNoClient_)
-				{
-					delete this;
-				}
-			}
-		}
+	void DecCounter()
+	{
+	   counter_--;
+	   if (!counter_)
+	   {
+	      if (deleteWhenNoClient_)
+	      {
+	         delete this;
+	      }
+	   }
+	}
+	
     private:
         // Instead of implementation bellow, GUID should be created (platform specfic)
         static std::string CreateInstanceId()
         {
-			static std::atomic<unsigned int> s_counter{0};
+	   static std::atomic<unsigned int> s_counter{0};
             
-            return ToString() << std::this_thread::get_id() << ':' << ++s_counter;
+           return ToString() << std::this_thread::get_id() << ':' << ++s_counter;
         }
-	private:
-		std::atomic<unsigned int> counter_;
+        
+   private:
+	std::atomic<unsigned int> counter_;
     };
 
 
