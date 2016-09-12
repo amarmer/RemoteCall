@@ -126,11 +126,11 @@ tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, 
    return tpl;
 }
 ```
-#####Function call: FunctionName(transport)(parameters). 
+#####Function call: transport(FunctionName(parameters)). 
 
 ```C++
 vector<string> vInOut = {"In1", "In2"};
-auto ret = Test(transport)(vInOut, 12345, "Test");
+auto ret = transport(Test(vInOut, 12345, "Test"));
 ```
 #####Interface declaration: REMOTE_INTERFACE(InterfaceName)
 
@@ -166,12 +166,12 @@ struct CTest: public ITest
         
 ```C++
 strins sInOut = "Test";
-auto ret = pTest->TestMethod(transport)(sInOut);
+auto ret = transport(pTest->TestMethod(sInOut));
 ```
-#####Class instance destruction: Delete(transport)(interfacePointer)
+#####Class instance destruction: transport(Delete(interfacePointer))
 
 ```C++
-Delete(transport)(pTest);
+transport(Delete(pTest));
 ```
 
 #####Callback
