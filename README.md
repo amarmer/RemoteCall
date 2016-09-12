@@ -17,7 +17,6 @@ Function call used as Function(transport)(Parameters),  method call used as Inte
 ```C++
 //Local
 int GetLength(const std::string& s);
-
 // Remote
 int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
 ```
@@ -33,8 +32,10 @@ int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
 
 #####Call:
 ```C++
-Local:  int size = GetLength("abc");
-Remote: int size = transport(GetLength("abc"));
+// Local  
+int size = GetLength("abc");
+// Remote
+int size = transport(GetLength("abc"));
 ```
 
 #####Interface 'ITest' and and it's method 'GetLength' example:
