@@ -162,7 +162,7 @@ struct CTest: public ITest
     }
 };
 ```
-#####Method call: InterfacePointer->MethodName(transport)(parameters) 
+#####Method call: transport(interfacePointer->MethodName(parameters)) 
         
 ```C++
 strins sInOut = "Test";
@@ -195,12 +195,12 @@ public:
 
 A client calls server and pass pointer to instance of a callback class, for instance:
 ```C++
-pTest->TestCallback(transport)("Test", new TestCallback);
+transport(pTest->TestCallback("Test", new TestCallback));
 ```
 
 Server calls callback method like:
 ```C++
-pTestCallback->CallFromServer(serverTransport)("Reply");
+serverTRansport(pTestCallback->CallFromServer("Reply"));
 ```
 
 #####Restrictions 
