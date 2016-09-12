@@ -85,13 +85,13 @@ ITest* REMOTE_FUNCTION_IMPL(TestClassFactory)()
 
 #####Call:
 ```C++
-   // Local
-   pTest = new Test;
-   int size = pTest->GetLength("abc");
+// Local
+pTest = new Test;
+int size = pTest->GetLength("abc");
    
-   // Remote
-   ITest* pTest = transport(TestClassFactory());
-   int size = transport(pTest->GetLength("abc"));
+// Remote
+ITest* pTest = transport(TestClassFactory());
+int size = transport(pTest->GetLength("abc"));
 ```
 
 #####Example
