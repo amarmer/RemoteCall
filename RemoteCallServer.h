@@ -227,26 +227,26 @@ namespace RemoteCall
         }
     };
 
-	template <typename T>
-	struct StoreRemoteInterface
-	{
-		template <typename X> 
-		static void Store(const std::string& clientId, X) {}
-	};
+    template <typename T>
+    struct StoreRemoteInterface
+    {
+        template <typename X> 
+	static void Store(const std::string& clientId, X) {}
+    };
 	
-	template <>
-	struct StoreRemoteInterface<RemoteInterface*>
+    template <>
+    struct StoreRemoteInterface<RemoteInterface*>
+    {
+ 	template <typename X>
+	static void Store(const std::string& clientId, X x) 
 	{
-		template <typename X>
-		static void Store(const std::string& clientId, X x) 
-		{
-			auto interface = (RemoteInterface*)x;
-			if (interface->deleteWhenNoClient_)
-			{
-				GetClientClassInstances()->Add(clientId, interface);
-			}
-		}
-	};
+	    auto interface = (RemoteInterface*)x;
+	    if (interface->deleteWhenNoClient_)
+	    {
+	        GetClientClassInstances()->Add(clientId, interface);
+	    }
+	}
+    };
 
 
     template <typename Ret> struct ServerCallProcessor<Ret>
