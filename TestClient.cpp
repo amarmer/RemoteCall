@@ -36,8 +36,8 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
     {
         // For testing, emulates request to server (implemented in TestServer.cpp)
         extern void ServerRequestHandler(const std::vector<char>& vIn, std::vector<char>& vOut);
-		std::vector<char> vOut;
-		ServerRequestHandler(vIn, vOut);
+	std::vector<char> vOut;
+	ServerRequestHandler(vIn, vOut);
 
         return true;
     }
@@ -48,7 +48,7 @@ struct ClientTransport: public RemoteCall::Transport<ClientTransport>
 void ClientRequestHandler(const std::vector<char>& vIn)
 {
     // 'RemoteCall::ProcessCall' function should be called when 'vIn' is received from server.
-	std::vector<char> vOut;
+    std::vector<char> vOut;
     RemoteCall::ProcessCall(vIn, vOut);
 }
 
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
         tuple<int, string> retTestSync = transport(TestSync(vInOut, map<int, string>{ { 1, "Return " }, { 9, "Test" } }));
         // vInOut == { {"A!", 10}, {"Z!", 11}};  retTestSync == (10, "Return Test");
 
-		// SetTestCallback can be used in synchronous or asynchronous call since it doesn't have a non-const reference parameter and it's return type is 'void'
+	// SetTestCallback can be used in synchronous or asynchronous call since it doesn't have a non-const reference parameter and it's return type is 'void'
         transport(SetTestCallback("Test", &s_testCallback, 123));
 
         transport(TriggerTestCallback());
