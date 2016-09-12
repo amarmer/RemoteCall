@@ -130,73 +130,74 @@ namespace RemoteCall
     }
 
 
-	struct ClientClassInstances
+    struct ClientClassInstances
+    {
+	void Add(const std::string& clientId, RemoteInterface* pInterface)
 	{
-		void Add(const std::string& clientId, RemoteInterface* pInterface)
+ 	    if (clientId.empty())
+	        return;
+
+	    std::lock_guard<std::recursive_mutex> lock(locker_);
+
+	    auto it = mapClientIdInterface_.find(clientId);
+	    if (mapClientIdInterface_.end() == it)
+	    {
+	        it = mapClientIdInterface_.insert(make_pair(clientId, std::set<RemoteInterface*>())).first;
+	    }
+
+	    it->second.insert(pInterface);
+	}
+
+	std::vector<RemoteInterface*> Clear(const std::string& clientId)
+	{
+	    std::lock_guard<std::recursive_mutex> lock(locker_);
+
+	    std::vector<RemoteInterface*> ret;
+
+	    auto it = mapClientIdInterface_.find(clientId);
+	    if (mapClientIdInterface_.end() != it)
+	    {
+	        for (auto itSet = it->second.begin(); itSet != it->second.end(); ++itSet)
 		{
-			if (clientId.empty())
-				return;
-
-			std::lock_guard<std::recursive_mutex> lock(locker_);
-
-			auto it = mapClientIdInterface_.find(clientId);
-			if (mapClientIdInterface_.end() == it)
-			{
-				it = mapClientIdInterface_.insert(make_pair(clientId, std::set<RemoteInterface*>())).first;
-			}
-
-			it->second.insert(pInterface);
+	  	    ret.push_back(*itSet);
 		}
 
-		std::vector<RemoteInterface*> Clear(const std::string& clientId)
-		{
-			std::lock_guard<std::recursive_mutex> lock(locker_);
+		mapClientIdInterface_.erase(it);
+	    }
 
-			std::vector<RemoteInterface*> ret;
+	    return ret;
+	}
 
-			auto it = mapClientIdInterface_.find(clientId);
-			if (mapClientIdInterface_.end() != it)
-			{
-				for (auto itSet = it->second.begin(); itSet != it->second.end(); ++itSet)
-				{
-					ret.push_back(*itSet);
-				}
+	void Clear(bool (*clientRunning)(const std::string& clientId))
+	{
+	    if (!clientRunning)
+	        return;
 
-				mapClientIdInterface_.erase(it);
-			}
+	    std::vector<std::string> clientIds;
 
-			return ret;
-		}
+	    for (auto& el: mapClientIdInterface_)
+	    {
+	        clientIds.push_back(el.first);
+	    }
 
-		void Clear(bool (*clientRunning)(const std::string& clientId))
-		{
-			if (!clientRunning)
-				return;
+	    for (auto& clientId: clientIds)
+	    {
+	        if (!clientRunning(clientId))
+	        {
+	            for (auto pRemoteInterface: Clear(clientId))
+	            {
+		        GetClassInstances()->RemoveInterface(pRemoteInterface);
 
-			std::vector<std::string> clientIds;
-
-			for (auto& el: mapClientIdInterface_)
-			{
-				clientIds.push_back(el.first);
-			}
-
-			for (auto& clientId: clientIds)
-			{
-				if (!clientRunning(clientId))
-				{
-					for (auto pRemoteInterface: Clear(clientId))
-					{
-						GetClassInstances()->RemoveInterface(pRemoteInterface);
-
-						pRemoteInterface->DecCounter();
-					}
-				}
-			}
-		}
-	private:
+		        pRemoteInterface->DecCounter();
+		    }
+	        }
+	    }
+        }
+	
+    private:
         std::map<std::string, std::set<RemoteInterface*>> mapClientIdInterface_;
         std::recursive_mutex locker_;
-	};
+    };
 
     inline ClientClassInstances* GetClientClassInstances() 
     { 
