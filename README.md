@@ -11,7 +11,7 @@ For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNC
 
 Function call used as Function(transport)(Parameters),  method call used as InterfacePointer->Method(transport)(Parameters).
 
-#####For instance,  local and remote declarations, implementattions, calls of a function Test:
+#####For instance,  local and remote declarations, implementations, calls of a function Test:
 
 #####Declaration:
 ```C++
