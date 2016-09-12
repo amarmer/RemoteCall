@@ -11,7 +11,10 @@ For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNC
 
 Function call used as Function(transport)(Parameters),  method call used as InterfacePointer->Method(transport)(Parameters).
 
-#####Function 'GetLength' example:
+
+####Examples:
+
+#####1. Function 'GetLength':
 
 #####Declaration:
 ```C++
@@ -38,7 +41,7 @@ int size = GetLength("abc");
 int size = transport(GetLength("abc"));
 ```
 
-#####Interface 'ITest' and and it's method 'GetLength' example:
+#####2. Interface 'ITest' and and it's method 'GetLength' example:
 
 #####Declaration:
 ```C++
