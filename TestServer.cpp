@@ -67,10 +67,10 @@ public:
         :s_(s), n_(n)
     {}
 
-	~CTest()
-	{
-		cout << "~CTest" << endl;
-	}
+    ~CTest()
+    {
+	cout << "~CTest" << endl;
+    }
 
     void REMOTE_METHOD_IMPL(UpdateData)(const std::string& s, int n) override
     {
@@ -102,7 +102,7 @@ void REMOTE_FUNCTION_IMPL(TriggerTestCallback)()
 {
     if (s_pCallback)
     {
-        //s_transport(s_pCallback->CallFromServer(12345));
+        s_transport(s_pCallback->CallFromServer(12345));
 
         // delete to avoid local memory leak, it doesn't call server 
         delete s_pCallback;
