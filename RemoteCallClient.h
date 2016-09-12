@@ -149,7 +149,7 @@ namespace RemoteCall
     struct FunctionInfo: public CallInfo<useSendReceive, Ret>
     {
 	FunctionInfo(const std::string callName, const std::vector<Param>& vPar)
-		: CallInfo<useSendReceive, Ret>(callName, vPar)
+	    : CallInfo<useSendReceive, Ret>(callName, vPar)
 	{}
 
         void Serialize(Serializer& writer) const override
