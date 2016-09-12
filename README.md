@@ -15,14 +15,20 @@ Function call used as Function(transport)(Parameters),  method call used as Inte
 
 #####Declaration:
 ```C++
-Local:  int GetLength(const std::string& s);
-Remote: int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
+//Local
+int GetLength(const std::string& s);
+
+// Remote
+int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
 ```
 
 #####Implementation:
 ```C++
-Local:  int GetLength(const std::string& s) { return s.size(); }
-Remote: int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
+
+// Local
+int GetLength(const std::string& s) { return s.size(); }
+// Remote
+int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
 ```
 
 #####Call:
