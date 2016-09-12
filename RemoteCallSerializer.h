@@ -34,7 +34,7 @@ namespace RemoteCall
             static_assert(!std::is_pointer<T>::value, "Parameter cannot be pointer");
             static_assert(!std::is_class<T>::value, "Parameter cannot be class");
 
-			char data[sizeof(T)];
+	    char data[sizeof(T)];
             for (size_t i = 0; i < sizeof(T); i++) 
             {
                 data[i] = v_[readPos_ + i];
@@ -51,7 +51,7 @@ namespace RemoteCall
             static_assert(!std::is_pointer<T>::value, "Parameter cannot be pointer");
             static_assert(!std::is_class<T>::value, "Parameter cannot be class");
 
-			std::copy((char*)&t, (char*)&t + sizeof(T), back_inserter(v_));
+	    std::copy((char*)&t, (char*)&t + sizeof(T), back_inserter(v_));
         }
 
         operator std::vector<char>()
@@ -114,7 +114,7 @@ namespace RemoteCall
     Serializer& operator >> (Serializer& reader, T*& pT)
     {
 		// Better diagnostic than check is_base
-		RemoteInterface* pInterface = pT; pInterface = nullptr;
+	RemoteInterface* pInterface = pT; pInterface = nullptr;
 
         std::string instanceId;
 
