@@ -12,7 +12,7 @@ For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNC
 Function call used as Function(transport)(Parameters),  method call used as InterfacePointer->Method(transport)(Parameters).
 
 
-####Examples:
+####Local and Remote comparison examples:
 
 #####1. Function 'GetLength':
 
@@ -20,6 +20,7 @@ Function call used as Function(transport)(Parameters),  method call used as Inte
 ```C++
 //Local
 int GetLength(const std::string& s);
+
 // Remote
 int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
 ```
@@ -29,6 +30,7 @@ int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
 
 // Local
 int GetLength(const std::string& s) { return s.size(); }
+
 // Remote
 int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
 ```
@@ -37,6 +39,7 @@ int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
 ```C++
 // Local  
 int size = GetLength("abc");
+
 // Remote
 int size = transport(GetLength("abc"));
 ```
