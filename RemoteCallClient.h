@@ -114,7 +114,7 @@ namespace RemoteCall
 
             static_assert(!std::is_pointer<DeclArgNoReference>::value  || !isDeclOut, "Parameter cannot be reference to pointer");
 
-			static_assert(std::is_convertible<CallArg, DeclArg>::value, "Caller parameter is not convertible to declared parameter");
+	    static_assert(std::is_convertible<CallArg, DeclArg>::value, "Caller parameter is not convertible to declared parameter");
 
             vPar.push_back(ParamType<isDeclOut>(callArg));
 
@@ -148,9 +148,9 @@ namespace RemoteCall
     template <bool useSendReceive, typename Ret>
     struct FunctionInfo: public CallInfo<useSendReceive, Ret>
     {
-		FunctionInfo(const std::string callName, const std::vector<Param>& vPar)
-			: CallInfo<useSendReceive, Ret>(callName, vPar)
-		{}
+	FunctionInfo(const std::string callName, const std::vector<Param>& vPar)
+		: CallInfo<useSendReceive, Ret>(callName, vPar)
+	{}
 
         void Serialize(Serializer& writer) const override
         {
@@ -230,12 +230,12 @@ namespace RemoteCall
         template<typename C> static char Send(TypeValue<bool(C::*)(const std::vector<char>&), &C::Send>*);
     };
 
-	template< typename T> inline constexpr bool HasSendReceive() { return std::is_same<decltype(SFINAE::template SendReceive<T>(0)), char>::value; }
-	template< typename T> inline constexpr bool HasSend()        { return std::is_same<decltype(SFINAE::template Send<T>(0)), char>::value; }
+    template< typename T> inline constexpr bool HasSendReceive() { return std::is_same<decltype(SFINAE::template SendReceive<T>(0)), char>::value; }
+    template< typename T> inline constexpr bool HasSend()        { return std::is_same<decltype(SFINAE::template Send<T>(0)), char>::value; }
 
-	template <typename T, bool yes>
-	struct ResolveSendFunctions
-	{
+    template <typename T, bool yes>
+    struct ResolveSendFunctions
+    {
         static void SendReceiveOrSend(T* pT, Serializer& reader, const std::vector<char>& vIn)
         {
             static_assert(HasSendReceive<T>(), "'bool SendReceive(const std::vector<char>&, std::vector<char>&)' is not implemented");
@@ -266,12 +266,12 @@ namespace RemoteCall
         {
             ResolveSendFunctions<T, true>::SendReceiveOrSend(pT, reader, vIn);
         }
-	};
+    };
 
 
-	template <typename T>
-	struct ResolveSendFunctions<T, false>
-	{
+    template <typename T>
+    struct ResolveSendFunctions<T, false>
+    {
         static void SendReceiveOrSend(T* pT, Serializer& reader, const std::vector<char>& vIn)
         {
             static_assert(HasSendReceive<T>() | HasSend<T>(), "'SendReceive' and 'Send' are not implemented");
@@ -286,7 +286,7 @@ namespace RemoteCall
             if (!pT->Send(vIn))
                 throw Exception(Exception::TransportError);
         }
-	};
+    };
 
 
     // Transport
@@ -317,10 +317,10 @@ namespace RemoteCall
             return Return<Ret>(reader, callInfo.vPar_);
         }
 
-		virtual std::string ClientId() const 
-		{ 
-			return std::string(); 
-		}
+	virtual std::string ClientId() const 
+	{ 
+	    return std::string(); 
+	}
     };
 }
 
