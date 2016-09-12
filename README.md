@@ -15,14 +15,17 @@ Function call used as Function(transport)(Parameters),  method call used as Inte
 
 #####Declaration:
 Local:  int Test(const std::string& s);
+
 Remote: int REMOTE_FUNCTION_DECL(Test)(const std::string& s);
 
 #####Implementation:
 Local:  int Test(const std::string& s) { return s.size(); }
+
 Remote: int REMOTE_FUNCTION_IMPL(Test)(const std::string& s)  { return s.size(); }
 
 #####Call:
 Local:  int size = Test("abc");
+
 Remote: int size = transport(Test("abc"));
 
 
