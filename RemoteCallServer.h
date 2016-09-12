@@ -80,13 +80,13 @@ namespace RemoteCall
         {
             std::lock_guard<std::recursive_mutex> lock(locker_);
 
-			std::string instanceId;
+	    std::string instanceId;
 
             for (auto it = mapInstancedIdInterface_.begin(); it != mapInstancedIdInterface_.end(); ++it)
             {
                 if (it->second == pInterface)
                 {
-					instanceId = pInterface->instanceId_;
+	   	    instanceId = pInterface->instanceId_;
 
                     mapInstancedIdInterface_.erase(it);
                     break;
@@ -99,7 +99,7 @@ namespace RemoteCall
                 mapInterfaceMethodCallers_.erase(it);
             }
 
-			return instanceId;
+	    return instanceId;
         }
 
         RemoteInterface* RemoveInterface(const std::string& instanceId)
@@ -212,7 +212,7 @@ namespace RemoteCall
         template <typename Caller, typename ...CallArgs>
         static void Call(const std::string& clientId, Caller* pCaller, Serializer& writer, Serializer& reader, CallArgs&...callArgs)
         {
-			auto t = typename std::remove_const<typename std::remove_reference<DeclArg>::type>::type();
+	    auto t = typename std::remove_const<typename std::remove_reference<DeclArg>::type>::type();
 
             reader >> t;
 
@@ -253,9 +253,9 @@ namespace RemoteCall
         template <typename Caller, typename ...CallArgs>
         static void Call(const std::string& clientId, Caller* pCaller, Serializer& writer, Serializer& reader, CallArgs&...args)
         {
-			auto ret = pCaller->template Call<Ret>(args...);
+	    auto ret = pCaller->template Call<Ret>(args...);
 
-			StoreRemoteInterface<Ret>::Store(clientId, ret);
+	    StoreRemoteInterface<Ret>::Store(clientId, ret);
 
             writer << ret;
         }
@@ -357,25 +357,25 @@ namespace RemoteCall
         template <typename Ret, typename ...Args>
         Ret Call(Args&...args)
         {
-			struct AutoCounter
-			{
-				RemoteInterface* pInterface_;
+	    struct AutoCounter
+	    {
+	        RemoteInterface* pInterface_;
 
-				AutoCounter(RemoteInterface* pInterface)
-					: pInterface_(pInterface)
-				{
-					pInterface_->IncCounter();
-				}
+	        AutoCounter(RemoteInterface* pInterface)
+		    : pInterface_(pInterface)
+		{
+		    pInterface_->IncCounter();
+		}
 
-				~AutoCounter()
-				{
-					pInterface_->DecCounter();
-				}
-			};
+		~AutoCounter()
+		{
+		    pInterface_->DecCounter();
+		}
+	    };
 
-			AutoCounter autoCounter(pC_);
+	    AutoCounter autoCounter(pC_);
 
-			return ((*pC_).*(m_))(args...);
+	    return ((*pC_).*(m_))(args...);
         }
 
         void Call(const std::string& clientId, Serializer& writer, Serializer& reader) override
@@ -466,12 +466,12 @@ namespace RemoteCall
 	
     inline void ProcessCall(const std::vector<char>& vIn, std::vector<char>& vOut, bool (*clientRunning)(const std::string& clientId) = nullptr)
     {
-		Serializer reader(vIn);
+	Serializer reader(vIn);
 
         std::string clientId;
         reader >> clientId;
 
-		GetClientClassInstances()->Clear(clientRunning);
+	GetClientClassInstances()->Clear(clientRunning);
 
         if (std::isdigit(reader.GetCurrent()))
         {
@@ -493,12 +493,12 @@ namespace RemoteCall
         GetClassInstances()->RemoveInterface(pInterface);
     }
 
-	inline auto Delete(RemoteInterface* pInterface)
-	{
-		auto instanceId = GetClassInstances()->RemoveInterface(pInterface);
+    inline auto Delete(RemoteInterface* pInterface)
+    {
+        auto instanceId = GetClassInstances()->RemoveInterface(pInterface);
 
-		pInterface->DecCounter();
+	pInterface->DecCounter();
 
-		return RemoteCall::MethodInfo<false, void>(instanceId, "~");
-	}
+	return RemoteCall::MethodInfo<false, void>(instanceId, "~");
+    }
 }
