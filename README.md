@@ -11,6 +11,29 @@ For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNC
 
 Function call used as Function(transport)(Parameters),  method call used as InterfacePointer->Method(transport)(Parameters).
 
+For instance local and remote declarations, implementattions, calls:
+
+1. Declaration:
+Local:
+int Test(const std::string& s);
+
+Remote:
+int REMOTE_FUNCTION_DECL(Test)(const std::string& s);
+
+2. Implementation:
+Local:
+int Test(const std::string& s) { return s.size(); }
+
+Remote:
+int REMOTE_FUNCTION_IMPL(Test)(const std::string& s)  { return s.size(); }
+
+3. Call:
+Local: 
+int size = Test("abc");
+
+Remote:
+int size = transport(Test("abc"));
+
 
 #####Example
 
