@@ -58,7 +58,7 @@ class TestCallback: public ITestCallback
 public:
     void REMOTE_METHOD_IMPL(CallFromServer)(int n) override
     {
-        // n == 12345;
+        cout << "CallFromServer: " << n << endl;
     }
 } static s_testCallback;
 
