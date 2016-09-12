@@ -300,7 +300,7 @@ namespace RemoteCall
         {
             Serializer writer;
 
-			writer << (std::is_base_of<RemoteInterface, typename std::remove_pointer<Ret>::type>::value? ClientId() : std::string());
+	    writer << (std::is_base_of<RemoteInterface, typename std::remove_pointer<Ret>::type>::value? ClientId() : std::string());
 
             callInfo.Serialize(writer);
 
