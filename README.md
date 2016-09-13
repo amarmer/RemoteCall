@@ -9,7 +9,7 @@ calls, and supports functions, interfaces, methods.
 
 For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNCTION_IMPL, REMOTE_INTERFACE, REMOTE_METHOD_DECL, REMOTE_METHOD_IMPL.
 
-Function call used as Function(transport)(Parameters),  method call used as InterfacePointer->Method(transport)(Parameters).
+Function call used as transport(Function(Parameters)),  method call used as transport(interfacePointer->Method(Parameters)).
 
 
 ####Local and Remote comparison examples:
