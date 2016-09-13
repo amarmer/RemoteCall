@@ -114,10 +114,10 @@ void REMOTE_FUNCTION_IMPL(TriggerTestCallback)()
 
 ITest* REMOTE_FUNCTION_IMPL(TestClassFactory)(const std::string& s, const std::string& c)
 {
-	auto pTest = new CTest(s, 10);
-	pTest->DeleteWhenNoClient();
+    auto pTest = new CTest(s, 10);
+    pTest->DeleteWhenNoClient();
 
-	s_pTest = pTest;
+    s_pTest = pTest;
 
     return pTest;
 }
