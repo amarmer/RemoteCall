@@ -114,7 +114,8 @@ namespace RemoteCall
     Serializer& operator >> (Serializer& reader, T*& pT)
     {
 	// Better compiler error than check is_base
-	RemoteInterface* pInterface = pT; pInterface = nullptr;
+	RemoteInterface* pInterface = pT; 
+	pInterface = nullptr;
 
         std::string instanceId;
 
