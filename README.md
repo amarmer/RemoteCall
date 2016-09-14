@@ -51,13 +51,13 @@ int size = transport(GetLength("abc"));
 // Local  
 struct ITest
 {
-   virtual int GetLength(const std::string& s);
+   virtual int GetLength(const std::string& s) = 0;
 };
 
 // Remote  
 REMOTE_INTERFACE(ITest)
 {
-   virtual int REMOTE_METHOD_DECL(GetLength)(const std::string& s);
+   virtual int REMOTE_METHOD_DECL(GetLength)(const std::string& s) = 0;
 };
 
 ITest* REMOTE_FUNCTION_DECL(TestClassFactory)();
