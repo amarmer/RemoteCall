@@ -258,7 +258,7 @@ namespace RemoteCall
             }
 
             // Skip "no exception" empty string
-			std::string NoException;
+	    std::string NoException;
             reader >> NoException;
         };
 
