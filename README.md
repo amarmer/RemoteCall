@@ -1,6 +1,7 @@
 #### RemoteCall - C++ framework for synchronous and asynchronous IPC
-     Tested with VS2015 and Clang 
-     
+
+It is tested with VS2015 and Clang (LLVM 2014).
+
 RemoteCall allows to declare, implement and call remote C++ functions similarly 
 to how it is done locally in the same process. RemoteCall supports synchronous and asynchronous 
 calls, and supports functions, interfaces, methods.
