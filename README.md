@@ -83,7 +83,7 @@ struct Test: public ITest
    }
 };
 
-ITest* REMOTE_FUNCTION_IMPL(TestClassFactory)()
+ITest* REMOTE_FUNCTION_IMPL(TestFactory)()
 {
    return new Test;
 }
