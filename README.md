@@ -96,7 +96,7 @@ pTest = new Test;
 int size = pTest->GetLength("abc");
    
 // Remote
-ITest* pTest = transport(TestClassFactory());
+ITest* pTest = transport(TestFactory());
 int size = transport(pTest->GetLength("abc"));
 ```
 
