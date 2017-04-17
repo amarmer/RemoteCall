@@ -203,7 +203,7 @@ transport(pTest->TestCallback("Test", new TestCallback));
 
 Server calls callback method like:
 ```C++
-serverTRansport(pTestCallback->CallFromServer("Reply"));
+serverTransport(pTestCallback->CallFromServer("Reply"));
 ```
 
 ##### Restrictions 
