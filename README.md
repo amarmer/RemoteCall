@@ -60,7 +60,7 @@ REMOTE_INTERFACE(ITest)
    virtual int REMOTE_METHOD_DECL(GetLength)(const std::string& s) = 0;
 };
 
-ITest* REMOTE_FUNCTION_DECL(TestClassFactory)();
+ITest* REMOTE_FUNCTION_DECL(TestFactory)();
 ```
 
 ##### Implementation:
