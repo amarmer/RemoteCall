@@ -6,7 +6,7 @@ RemoteCall allows to declare, implement and call remote C++ functions similarly
 to how it is done locally in the same process. RemoteCall supports synchronous and asynchronous 
 calls, and supports functions, interfaces, methods.
 
-#####Framework
+##### Framework
 *RemoteCall.h* contains framework. This header should be included in declarion header file.
 
 For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNCTION_IMPL, REMOTE_INTERFACE, REMOTE_METHOD_DECL, REMOTE_METHOD_IMPL.
@@ -14,11 +14,11 @@ For declaration and implementation used macros REMOTE_FUNCTION_DECL, REMOTE_FUNC
 Function call used as transport(Function(Parameters)),  method call used as transport(interfacePointer->Method(Parameters)).
 
 
-####Local and Remote comparison examples:
+#### Local and Remote comparison examples:
 
-#####1. Function 'GetLength':
+##### 1. Function 'GetLength':
 
-#####Declaration:
+##### Declaration:
 ```C++
 //Local
 int GetLength(const std::string& s);
@@ -27,7 +27,7 @@ int GetLength(const std::string& s);
 int REMOTE_FUNCTION_DECL(GetLength)(const std::string& s);
 ```
 
-#####Implementation:
+##### Implementation:
 ```C++
 
 // Local
@@ -37,7 +37,7 @@ int GetLength(const std::string& s) { return s.size(); }
 int REMOTE_FUNCTION_IMPL(GetLength)(const std::string& s)  { return s.size(); }
 ```
 
-#####Call:
+##### Call:
 ```C++
 // Local  
 int size = GetLength("abc");
@@ -46,9 +46,9 @@ int size = GetLength("abc");
 int size = transport(GetLength("abc"));
 ```
 
-#####2. Interface 'ITest' and and it's method 'GetLength' example:
+##### 2. Interface 'ITest' and and it's method 'GetLength' example:
 
-#####Declaration:
+##### Declaration:
 ```C++
 // Local  
 struct ITest
@@ -65,7 +65,7 @@ REMOTE_INTERFACE(ITest)
 ITest* REMOTE_FUNCTION_DECL(TestClassFactory)();
 ```
 
-#####Implementation:
+##### Implementation:
 ```C++
 //Local
 struct Test: public ITest
@@ -91,7 +91,7 @@ ITest* REMOTE_FUNCTION_IMPL(TestClassFactory)()
 }
 ```
 
-#####Call:
+##### Call:
 ```C++
 // Local
 pTest = new Test;
@@ -103,7 +103,7 @@ int size = transport(pTest->GetLength("abc"));
 ```
 
 
-#####Transport
+##### Transport
 
 RemoteCall can use any transport for IPC, for instance socket, pipes, etc. 
 Transport implementation is not part of the framework.
@@ -113,11 +113,11 @@ It is described and implemented in TestClient.cpp. Bellow instance of Transport 
 
 
 
-#####Function declaration: REMOTE_FUNCTION_DECL(FunctionName)
+##### Function declaration: REMOTE_FUNCTION_DECL(FunctionName)
 ```C++
 tuple<std::string, int> REMOTE_FUNCTION_DECL(Test)(std::vector<std::string>& vInOut, int n, const string& s);
 ```
-#####Function implementation: REMOTE_FUNCTION_IMPL(FunctionName)
+##### Function implementation: REMOTE_FUNCTION_IMPL(FunctionName)
 
 ```C++
 tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, int n, const string& s)
@@ -131,13 +131,13 @@ tuple<string, int> REMOTE_FUNCTION_IMPL(Test)(std::vector<std::string>& vInOut, 
    return tpl;
 }
 ```
-#####Function call: transport(FunctionName(parameters)). 
+##### Function call: transport(FunctionName(parameters)). 
 
 ```C++
 vector<string> vInOut = {"In1", "In2"};
 auto ret = transport(Test(vInOut, 12345, "Test"));
 ```
-#####Interface declaration: REMOTE_INTERFACE(InterfaceName)
+##### Interface declaration: REMOTE_INTERFACE(InterfaceName)
 
 ```C++
 REMOTE_INTERFACE(ITest) 
@@ -145,7 +145,7 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-#####Method declaration: REMOTE_METHOD_DECL(MethodName)
+##### Method declaration: REMOTE_METHOD_DECL(MethodName)
 
 ```C++
 REMOTE_INTERFACE(ITest)
@@ -154,7 +154,7 @@ REMOTE_INTERFACE(ITest)
 };
 ```
 
-#####Method Implementation: REMOTE_METHOD_IMPL(MethodName)
+##### Method Implementation: REMOTE_METHOD_IMPL(MethodName)
 
 ```C++
 struct CTest: public ITest 
@@ -167,19 +167,19 @@ struct CTest: public ITest
     }
 };
 ```
-#####Method call: transport(interfacePointer->MethodName(parameters)) 
+##### Method call: transport(interfacePointer->MethodName(parameters)) 
         
 ```C++
 strins sInOut = "Test";
 auto ret = transport(pTest->TestMethod(sInOut));
 ```
-#####Class instance destruction: transport(Delete(interfacePointer))
+##### Class instance destruction: transport(Delete(interfacePointer))
 
 ```C++
 transport(Delete(pTest));
 ```
 
-#####Callback
+##### Callback
 
 Callback is just a class described above:
 
@@ -208,14 +208,14 @@ Server calls callback method like:
 serverTRansport(pTestCallback->CallFromServer("Reply"));
 ```
 
-#####Restrictions 
+##### Restrictions 
 1. In functions and methods, pointers cannot be used in return and in parameters (except pointers to REMOTE_INTERFACE)
 2. If a parameter is passed as non-const reference, it is In/Out parameter
 
-#####Exceptions
+##### Exceptions
 All calls can throw RemoteCall::Exception
 
-#####Non built-in types
+##### Non built-in types
 For non built-in types, for instance type T, 2 serialization functions needs to be implemented:
 
 ```C++
