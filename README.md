@@ -1,4 +1,4 @@
-The code of the frame doesn't compile on the latest compilers, it is rewritten and simplified in [IPC-Call](https://github.com/amarmer/IPC-Call)
+The code of the framework doesn't compile on the latest compilers, it is rewritten and simplified in [IPC-Call](https://github.com/amarmer/IPC-Call)
 
 #### RemoteCall - C++ framework for synchronous and asynchronous IPC
 
